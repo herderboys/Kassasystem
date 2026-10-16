@@ -6,7 +6,7 @@ class VaraTest {
 
 	@Test
 	void test() {
-		Vara vara = new Vara("Mjölk", 15.90);
+		Vara vara = new Vara("Mjöl", 15.90);
 		
 		assertEquals("Mjölk", vara.getNamn());
 		
