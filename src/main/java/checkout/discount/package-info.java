@@ -1,0 +1,4 @@
+/**
+ * Discounts.
+ */
+package checkout.discount;
