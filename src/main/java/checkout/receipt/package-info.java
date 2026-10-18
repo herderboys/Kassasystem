@@ -1,0 +1,4 @@
+/**
+ * Receipts.
+ */
+package checkout.receipt;

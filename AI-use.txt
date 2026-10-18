@@ -1,0 +1,1 @@
+Använde AI för att skapa filstruktur och konfigurera pom.xml
