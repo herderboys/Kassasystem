@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 class ProductGruppTest {
 
 	@Test
-	void testGetNamn() {
+	void testGetProductGruppName() {
 		ProductGrupp grupp = new ProductGrupp("Drycker");
-        assertEquals("Drycker", grupp.getNamn());
+        assertEquals("Drycker", grupp.getName());
 	}
 	
 	@Test

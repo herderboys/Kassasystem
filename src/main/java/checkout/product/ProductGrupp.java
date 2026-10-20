@@ -12,15 +12,19 @@ public class ProductGrupp {
 	public ProductGrupp(String namn) {
 		
 		this.namn = namn;
-		
-		
 	}
 	
-	public String getNamn() {
+	public String getName() {
 		return namn;	
 	}
 	//<Produkt>
 	public List<Object> getProducts() {
 	    return new ArrayList<>(products);
+	}
+	
+	public void AddProductToProductGrupp(Object product){
+		
+		this.products.add(product); 
+		
 	}
 }
