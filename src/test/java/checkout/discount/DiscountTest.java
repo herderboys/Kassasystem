@@ -10,14 +10,14 @@ class DiscountTest {
 
 	@Test
 	void testGetNamn() {
-		Discount discount = new Discount("Discount1");
+		Discount discount = new Discount("Discount1", 10);
         assertEquals("Discount1", discount.getName());
 	}
 	
 	@Test
 	void testGetDiscountNumber() {
-		Discount discount = new Discount("Discount1", 10.10);
-        assertEquals(10.10, discount.getNumber());
+		Discount discount = new Discount("Discount1", 10);
+        assertEquals(10, discount.getDiscountNumber());
 	}
 	
 }
