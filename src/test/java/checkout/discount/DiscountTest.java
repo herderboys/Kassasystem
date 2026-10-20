@@ -19,5 +19,11 @@ class DiscountTest {
 		Discount discount = new Discount("Discount1", 10);
         assertEquals(10, discount.getDiscountNumber());
 	}
+	@Test
+	void testNotAcceptNegativeDiscount() {
+		assertThrows(
+		        IllegalArgumentException.class,
+		        () -> new Discount("Discount1", -10));
+	}
 	
 }
