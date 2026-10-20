@@ -16,5 +16,12 @@ class ProductGruppTest {
 		ProductGrupp grupp = new ProductGrupp("Drycker");
 		assertEquals(0, grupp.getProducts().size());
 	}
+	
+	@Test
+	void testAddProductToProductGrupp() {
+		ProductGrupp grupp = new ProductGrupp("Drycker");
+		grupp.addProduct();
+		assertEquals(1, grupp.getProducts().size());
+	}
 
 }
