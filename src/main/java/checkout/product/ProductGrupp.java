@@ -5,17 +5,17 @@ import java.util.List;
 
 public class ProductGrupp {
 	
-	private String namn;
+	private String name;
 	//<Produkt>
 	private List<Object> products = new ArrayList<>();
 	
-	public ProductGrupp(String namn) {
+	public ProductGrupp(String name) {
 		
-		this.namn = namn;
+		this.name = name;
 	}
 	
 	public String getName() {
-		return namn;	
+		return name;	
 	}
 	//<Produkt>
 	public List<Object> getProducts() {
