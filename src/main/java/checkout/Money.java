@@ -6,9 +6,8 @@ public class Money {
     public Money(int ore) {
         if (ore < 0) {
             throw new IllegalArgumentException();
-        } else {
-            this.ore = ore;
         }
+        this.ore = ore;
     }
 
     public int getAmountInOre() {
