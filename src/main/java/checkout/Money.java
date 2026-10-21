@@ -14,4 +14,8 @@ public class Money {
     public int getAmountInOre() {
         return ore;
     }
+
+    public void add(int ore) {
+        
+    }
 }

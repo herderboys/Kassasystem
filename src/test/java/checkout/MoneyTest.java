@@ -17,4 +17,11 @@ public class MoneyTest {
     void ensureNoNegativeInitialValues() {
         assertThrows(IllegalArgumentException.class, () -> new Money(-1));
     }
+
+    @Test
+    void ensureAdditionReturnsRightResult() {
+        Money money = new Money(500);
+        money.add(200);
+        assertEquals(700, money.getAmountInOre());
+    }
 }
