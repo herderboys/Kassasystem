@@ -1,4 +1,4 @@
-package checkout.product;
+package checkout;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;

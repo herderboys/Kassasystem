@@ -1,10 +1,9 @@
-package checkout.discount;
+package checkout;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import checkout.product.ProductGrupp;
 
 class DiscountTest {
 
