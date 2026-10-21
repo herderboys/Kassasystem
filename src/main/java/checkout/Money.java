@@ -15,7 +15,7 @@ public class Money {
     }
 
     public Money add(Money other) {
-        return new Money(0);
+        return new Money(ore + other.getAmountInOre());
     }
 
     public Money add(int amount) {
