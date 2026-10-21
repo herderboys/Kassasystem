@@ -20,9 +20,10 @@ public class MoneyTest {
 
     @Test
     void ensureAdditionReturnsRightResult() {
-        Money originalMoney = new Money(500);
-        Money returnMoney = originalMoney.add(200);
+        Money money = new Money(500);
+        Money returnMoney = money.add(new Money(200));
 
+        assertEquals(500, money.getAmountInOre());
         assertEquals(700, returnMoney.getAmountInOre());
     }
 
@@ -34,7 +35,7 @@ public class MoneyTest {
         assertEquals(300, returnMoney.getAmountInOre());
     }
 
-    @Test 
+    @Test
     void ensureAdditionCantTakeNegativeAmount() {
         Money money = new Money(200);
         assertThrows(IllegalArgumentException.class, () -> money.add(-100));
