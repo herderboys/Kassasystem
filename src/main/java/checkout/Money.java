@@ -20,6 +20,6 @@ public class Money {
     }
 
     public void subtract(int amount) {
-
+        ore -= amount;
     }
 }
