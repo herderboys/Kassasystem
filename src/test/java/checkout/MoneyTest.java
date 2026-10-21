@@ -36,4 +36,17 @@ public class MoneyTest {
         assertEquals(300, returnMoney.getAmountInOre());
     }
 
+    @Test
+    void canSubtractToZero() {
+        Money money = new Money(300);
+        money = money.subtract(new Money(300));
+
+        assertEquals(0, money.getAmountInOre());
+    }
+
+    @Test 
+    void cannotSubtractBelowZero() {
+        Money money = new Money(300);
+        assertThrows(IllegalArgumentException.class, () -> money.subtract(new Money(301)));
+    }
 }
