@@ -10,8 +10,4 @@ private int ore;
     public int getAmountInOre() {
         return ore;
     }
-
-    public double getAmountInCrowns() {
-        return 0;
-    }
 }
