@@ -20,6 +20,6 @@ public class Money {
     }
 
     public Money subtract(int amount) {
-        return new Money(0);
+        return new Money(ore - amount);
     }
 }
