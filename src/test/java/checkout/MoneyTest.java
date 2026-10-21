@@ -20,11 +20,12 @@ public class MoneyTest {
 
     @Test
     void ensureAdditionReturnsRightResult() {
-        Money money = new Money(500);
-        money.add(200);
-        assertEquals(700, money.getAmountInOre());
+        Money originalMoney = new Money(500);
+        Money returnMoney = originalMoney.add(200);
+
+        assertEquals(700, returnMoney.getAmountInOre());
     }
-    
+
     @Test
     void ensureSubtractionReturnsRightResult() {
         Money money = new Money(600);
