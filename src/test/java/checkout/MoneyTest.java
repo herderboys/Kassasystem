@@ -33,4 +33,10 @@ public class MoneyTest {
 
         assertEquals(300, returnMoney.getAmountInOre());
     }
+
+    @Test 
+    void ensureAdditionCantTakeNegativeAmount() {
+        Money money = new Money(200);
+        assertThrows(IllegalArgumentException.class, () -> money.subtract(-100));
+    }
 }
