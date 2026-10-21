@@ -16,7 +16,7 @@ public class Money {
     }
 
     public Money add(int amount) {
-        return new Money(0);
+        return new Money(ore + amount);
     }
 
     public void subtract(int amount) {
