@@ -8,6 +8,9 @@ public class Discount {
 	public Discount(String name,int discountNumber ) {
 		
 		this.name = name;
+		if (discountNumber <= 0) {
+			throw new IllegalArgumentException("Discount cannot be negative");			
+		}
 		this.discountNumber = discountNumber;
 	}
 	

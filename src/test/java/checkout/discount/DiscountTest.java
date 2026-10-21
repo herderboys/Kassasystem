@@ -25,5 +25,8 @@ class DiscountTest {
 		        IllegalArgumentException.class,
 		        () -> new Discount("Discount1", -10));
 	}
-	
+	@Test
+	void testPercentileDiscountCantBeOver100() {
+		
+	}
 }
