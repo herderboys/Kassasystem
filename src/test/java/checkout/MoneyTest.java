@@ -24,4 +24,11 @@ public class MoneyTest {
         money.add(200);
         assertEquals(700, money.getAmountInOre());
     }
+    
+    @Test
+    void ensureSubtractionReturnsRightResult() {
+        Money money = new Money(600);
+        money.subtract(300);
+        assertEquals(300, money.getAmountInOre());
+    }
 }

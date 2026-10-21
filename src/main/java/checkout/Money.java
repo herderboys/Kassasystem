@@ -18,4 +18,8 @@ public class Money {
     public void add(int amount) {
         ore += amount;       
     }
+
+    public void subtract(int amount) {
+
+    }
 }
