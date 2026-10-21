@@ -18,13 +18,6 @@ public class Money {
         return new Money(ore + other.getAmountInOre());
     }
 
-    public Money add(int amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException();
-        }
-        return new Money(ore + amount);
-    }
-
     public Money subtract(int amount) {
         return new Money(ore - amount);
     }
