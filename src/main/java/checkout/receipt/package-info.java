@@ -1,4 +1,0 @@
-/**
- * Receipts.
- */
-package checkout.receipt;
