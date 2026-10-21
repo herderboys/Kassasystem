@@ -18,7 +18,7 @@ public class Money {
         return new Money(ore + other.getAmountInOre());
     }
 
-    public Money subtract(int amount) {
-        return new Money(ore - amount);
+    public Money subtract(Money other) {
+        return new Money(0);
     }
 }
