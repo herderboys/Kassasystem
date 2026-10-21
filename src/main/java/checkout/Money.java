@@ -1,11 +1,11 @@
 package checkout;
 
 public class Money {
-    private int ore;
+    private final int ore;
 
     public Money(int ore) {
         if (ore < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Amount cannot be below 0: " + ore);
         }
         this.ore = ore;
     }

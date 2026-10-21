@@ -19,7 +19,7 @@ public class MoneyTest {
     }
 
     @Test
-    void ensureAdditionReturnsRightResult() {
+    void additionReturnsSumAndLeavesOriginalUnchanged() {
         Money originalMoney = new Money(500);
         Money returnMoney = originalMoney.add(new Money(200));
 
@@ -28,7 +28,7 @@ public class MoneyTest {
     }
 
     @Test
-    void ensureSubtractionReturnsRightResult() {
+    void subtractionReturnsDifferenceAndLeavesOriginalUnchanged() {
         Money originalMoney = new Money(500);
         Money returnMoney = originalMoney.subtract(new Money(200));
 
