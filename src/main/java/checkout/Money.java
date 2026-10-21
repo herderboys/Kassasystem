@@ -19,7 +19,7 @@ public class Money {
         return new Money(ore + amount);
     }
 
-    public void subtract(int amount) {
-        ore -= amount;
+    public Money subtract(int amount) {
+        return new Money(0);
     }
 }
