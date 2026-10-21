@@ -37,6 +37,6 @@ public class MoneyTest {
     @Test 
     void ensureAdditionCantTakeNegativeAmount() {
         Money money = new Money(200);
-        assertThrows(IllegalArgumentException.class, () -> money.subtract(-100));
+        assertThrows(IllegalArgumentException.class, () -> money.add(-100));
     }
 }

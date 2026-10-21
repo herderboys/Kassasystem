@@ -15,6 +15,9 @@ public class Money {
     }
 
     public Money add(int amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException();
+        }
         return new Money(ore + amount);
     }
 
