@@ -1,6 +1,6 @@
 package checkout.discount;
 
-public class Discount {
+public abstract class Discount {
 	
 	private String name;
 	private int discountNumber;
