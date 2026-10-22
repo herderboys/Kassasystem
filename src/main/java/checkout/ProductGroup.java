@@ -3,13 +3,13 @@ import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductGrupp {
+public class ProductGroup {
 	
 	private String name;
 	//<Produkt>
 	private List<Object> products = new ArrayList<>();
 	
-	public ProductGrupp(String name) {
+	public ProductGroup(String name) {
 		
 		this.name = name;
 	}
@@ -22,7 +22,7 @@ public class ProductGrupp {
 	    return new ArrayList<>(products);
 	}
 	
-	public void AddProductToProductGrupp(Object product){
+	public void AddProductToProductGroup(Object product){
 		
 		this.products.add(product); 
 		
