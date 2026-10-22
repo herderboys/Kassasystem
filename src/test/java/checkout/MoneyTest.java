@@ -49,4 +49,12 @@ public class MoneyTest {
         Money money = new Money(300);
         assertThrows(IllegalArgumentException.class, () -> money.subtract(new Money(301)));
     }
+
+    @Test 
+    void twoMoneysWithSameValueAreEqual() {
+        Money first = new Money(250);
+        Money second = new Money(250);
+
+        assertEquals(first, second);
+    }
 }
