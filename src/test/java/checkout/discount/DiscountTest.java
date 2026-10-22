@@ -32,4 +32,21 @@ class DiscountTest {
 	        () -> new PercentageDiscount("Discount1", 101)
 	    );
 	}
+	
+	@Test
+	void testAccepts100PercentDiscount() {
+	    PercentageDiscount discount =
+	        new PercentageDiscount("Discount1", 100);
+
+	    assertEquals(100, discount.getDiscountNumber());
+	}
+
+	@Test
+	void testRejectsZeroPercentDiscount() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> new PercentageDiscount("Discount1", 0)
+	    );
+	}
+	
 }
