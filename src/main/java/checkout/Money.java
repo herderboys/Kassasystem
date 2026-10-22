@@ -12,8 +12,8 @@ public class Money {
 
     @Override 
     public boolean equals(Object other) {
-        if (other instanceof Money) {
-            return ((Money)other).ore == this.ore;
+        if (other instanceof Money m) {
+            return this.ore == m.ore ;
         }
         return false;
     }

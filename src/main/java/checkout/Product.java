@@ -2,11 +2,11 @@ package checkout;
 
 public class Product {
     private String name;
-    private Money money;
+    private Money price;
 
-    public Product(String name, Money money) {
+    public Product(String name, Money price) {
         this.name = name;
-        this.money = money;
+        this.price = price;
     }
 
     public String getName() {
@@ -14,6 +14,6 @@ public class Product {
     }
 
     public Money getPrice() {
-        return money;
+        return price;
     }
 }
