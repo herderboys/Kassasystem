@@ -10,6 +10,19 @@ public class Money {
         this.ore = ore;
     }
 
+    @Override 
+    public boolean equals(Object other) {
+        if (other instanceof Money) {
+            return ((Money)other).ore == this.ore;
+        }
+        return false;
+    }
+
+    @Override 
+    public int hashCode() {
+        return ore;
+    }
+
     public int getAmountInOre() {
         return ore;
     }
