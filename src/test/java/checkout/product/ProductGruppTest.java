@@ -76,4 +76,15 @@ class ProductGruppTest {
 
 	    assertEquals(2, count);
 	}
+	
+	@Test
+	void testGetAddedDiscount() {
+	    ProductGrupp grupp = new ProductGrupp("Drycker");
+	    PercentageDiscount discount =
+	        new PercentageDiscount("Sommarrea", 10);
+
+	    grupp.addDiscount(discount);
+
+	    assertSame(discount, grupp.getDiscounts().get(0));
+	}
 }
