@@ -30,6 +30,10 @@ public class ProductGrupp {
 		
 	}
 	
+	 public boolean removeProduct(Object product) {
+	    return products.remove(product);
+	}
+	
 	public void addDiscount(Discount discount) {
 	   
 		this.discounts.add(discount);
