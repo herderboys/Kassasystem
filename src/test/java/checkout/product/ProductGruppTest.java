@@ -20,7 +20,7 @@ class ProductGruppTest {
 	@Test
 	void testAddProductToProductGrupp() {
 		ProductGrupp grupp = new ProductGrupp("Drycker");
-		grupp.addProduct();
+		grupp.AddProductToProductGrupp();
 		assertEquals(1, grupp.getProducts().size());
 	}
 
