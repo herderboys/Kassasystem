@@ -31,7 +31,8 @@ public class ProductGrupp {
 	}
 	
 	public void addDiscount(Discount discount) {
-	    this.discounts.add(discount);
+	   
+		this.discounts.add(discount);
 	}
 	
 	public List<Discount> getDiscounts() {
