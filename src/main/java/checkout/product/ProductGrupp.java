@@ -3,11 +3,14 @@ import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
+import checkout.discount.Discount;
+
 public class ProductGrupp {
 	
 	private String name;
 	//<Produkt>
 	private List<Object> products = new ArrayList<>();
+	private List<Discount> discounts = new ArrayList<>();
 	
 	public ProductGrupp(String name) {
 		
@@ -26,5 +29,13 @@ public class ProductGrupp {
 		
 		this.products.add(product); 
 		
+	}
+	
+	public void addDiscount(Discount discount) {
+	    this.discounts.add(discount);
+	}
+	
+	public List<Discount> getDiscounts() {
+	    return new ArrayList<>(discounts);
 	}
 }

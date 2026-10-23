@@ -3,6 +3,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import checkout.discount.PercentageDiscount;
+
 class ProductGruppTest {
 
 	@Test
@@ -18,10 +20,18 @@ class ProductGruppTest {
 	}
 	
 	@Test
+	void testAddDiscountToGrupp() {
+		ProductGrupp grupp = new ProductGrupp("Drycker");
+		PercentageDiscount discount = new PercentageDiscount("Sommarrea", 10);
+		grupp.addDiscount(discount);
+		assertEquals(1, grupp.getDiscounts().size());
+	}
+	
+	@Test
 	void testAddProductToProductGrupp() {
 		ProductGrupp grupp = new ProductGrupp("Drycker");
 		grupp.AddProductToProductGrupp();
 		assertEquals(1, grupp.getProducts().size());
 	}
-
+	
 }
