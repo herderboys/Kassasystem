@@ -9,4 +9,12 @@ public class VatCategoryTest {
         VatCategory category = new VatCategory(25);
         assertEquals(25, category.getVatRate());
     }
+
+    @Test
+    void calculatesVatFromPriceExcludingVat() {
+        VatCategory category = new VatCategory(25);
+        Money priceExcludingVat = new Money(10000);
+
+        assertEquals(new Money(2500), category.calculateVatFromNetPrice(priceExcludingVat));
+    }
 }

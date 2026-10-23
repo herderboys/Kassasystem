@@ -10,4 +10,9 @@ public class VatCategory {
     public int getVatRate() {
         return vatRate;
     }
+
+    public Money calculateVatFromNetPrice(Money priceExcludingVat) {
+        int vatInOre = priceExcludingVat.getAmountInOre() * vatRate / 100;
+        return new Money(vatInOre);
+    }
 }
