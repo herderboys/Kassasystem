@@ -6,7 +6,7 @@ public class FixedDiscount extends Discount {
 		super(name, discountNumber);
 		
 		
-		// TODO Auto-generated constructor stub
+		
 	}
 
 }

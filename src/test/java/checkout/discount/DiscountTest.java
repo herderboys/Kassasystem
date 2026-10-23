@@ -1,5 +1,10 @@
 package checkout.discount;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -48,5 +53,24 @@ class DiscountTest {
 	        () -> new PercentageDiscount("Discount1", 0)
 	    );
 	}
+	
+	@Test
+    void testDiscountIsValidDuringValidityPeriod() {
+        ZoneId zone = ZoneId.of("Europe/Stockholm");
+
+        Clock clock = Clock.fixed(
+            Instant.parse("2026-10-23T10:00:00Z"),
+            zone
+        );
+
+        PercentageDiscount discount = new PercentageDiscount(
+            "Sommarrea", 10,LocalDateTime.of(2026, 10, 23, 11, 0),
+            LocalDateTime.of(2026, 10, 23, 13, 0),clock
+        );
+
+        assertTrue(discount.isValid());
+    }
+}
+	
 	
 }
