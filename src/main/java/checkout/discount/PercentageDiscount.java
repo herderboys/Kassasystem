@@ -11,11 +11,6 @@ public class PercentageDiscount extends Discount{
             );
         }
 		
-		if (discountNumber <= 0) {
-            throw new IllegalArgumentException(
-                "Percentage cannot be 0 or below "
-            );
-        }
 		
 	}
 

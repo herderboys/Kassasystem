@@ -9,7 +9,7 @@ public abstract class Discount {
 		
 		this.name = name;
 		if (discountNumber <= 0) {
-			throw new IllegalArgumentException("Discount cannot be negative");			
+			throw new IllegalArgumentException("Discount cannot be zero or negative");			
 		}
 		this.discountNumber = discountNumber;
 	}

@@ -25,8 +25,7 @@ public class ProductGrupp {
 	    return new ArrayList<>(products);
 	}
 	
-	public void AddProductToProductGrupp(Object product){
-		
+	public void addProduct(Object product){
 		this.products.add(product); 
 		
 	}

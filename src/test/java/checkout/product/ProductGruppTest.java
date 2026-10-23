@@ -30,7 +30,8 @@ class ProductGruppTest {
 	@Test
 	void testAddProductToProductGrupp() {
 		ProductGrupp grupp = new ProductGrupp("Drycker");
-		grupp.AddProductToProductGrupp();
+		Object product = new Object();
+		grupp.addProduct(product);
 		assertEquals(1, grupp.getProducts().size());
 	}
 	
