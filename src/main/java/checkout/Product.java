@@ -5,6 +5,13 @@ public class Product {
     private Money price;
 
     public Product(String name, Money price) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name can't be empty or null.");
+        }
+        if (price == null) {
+            throw new IllegalArgumentException("Money can't be null.");
+        }
+
         this.name = name;
         this.price = price;
     }
