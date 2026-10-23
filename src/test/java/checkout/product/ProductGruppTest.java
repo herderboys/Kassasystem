@@ -48,6 +48,18 @@ class ProductGruppTest {
 	}
 	
 	@Test
+	void testRemoveProductThatDoesNotExist() {
+	    ProductGrupp grupp = new ProductGrupp("Drycker");
+	    Object product = new Object();
+
+	    boolean removed = grupp.removeProduct(product);
+
+	    assertFalse(removed);
+	    assertEquals(0, grupp.getProducts().size());
+	}
+	
+	
+	@Test
 	void testIterateOverProducts() {
 	    ProductGrupp grupp = new ProductGrupp("Drycker");
 	    Object product1 = new Object();
