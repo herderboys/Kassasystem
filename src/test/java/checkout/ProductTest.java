@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import com.sun.org.apache.bcel.internal.generic.MONITOREXIT;
+
 public class ProductTest {
 
     @Test
@@ -38,4 +40,11 @@ public class ProductTest {
     void productMoneyNotNull() {
         assertThrows(IllegalArgumentException.class, () -> new Product("Ingenting", null));
     }
+
+    @Test 
+    void productMoneyCanBeZero() {
+        Product product = new Product("Free", new Money(0));
+        assertEquals(new Money(0), product.getPrice());
+    }
+
 }
