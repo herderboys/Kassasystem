@@ -46,4 +46,22 @@ class ProductGruppTest {
 	    assertTrue(removed);
 	    assertEquals(0, grupp.getProducts().size());
 	}
+	
+	@Test
+	void testIterateOverProducts() {
+	    ProductGrupp grupp = new ProductGrupp("Drycker");
+	    Object product1 = new Object();
+	    Object product2 = new Object();
+
+	    grupp.addProduct(product1);
+	    grupp.addProduct(product2);
+
+	    int count = 0;
+
+	    for (Object product : grupp.getProducts()) {
+	        count++;
+	    }
+
+	    assertEquals(2, count);
+	}
 }
