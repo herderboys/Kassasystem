@@ -35,4 +35,15 @@ class ProductGruppTest {
 		assertEquals(1, grupp.getProducts().size());
 	}
 	
+	@Test
+	void testRemoveProductFromProductGrupp() {
+	    ProductGrupp grupp = new ProductGrupp("Drycker");
+	    Object product = new Object();
+
+	    grupp.addProduct(product);
+	    boolean removed = grupp.removeProduct(product);
+
+	    assertTrue(removed);
+	    assertEquals(0, grupp.getProducts().size());
+	}
 }
