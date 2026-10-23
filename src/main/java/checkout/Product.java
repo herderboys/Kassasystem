@@ -1,8 +1,8 @@
 package checkout;
 
 public class Product {
-    private String name;
-    private Money price;
+    private final String name;
+    private final Money price;
 
     public Product(String name, Money price) {
         if (name == null || name.isBlank()) {
