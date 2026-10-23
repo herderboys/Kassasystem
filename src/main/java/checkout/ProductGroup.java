@@ -10,7 +10,10 @@ public class ProductGroup {
     private List<Discount> discounts = new ArrayList<>();
 
     public ProductGroup(String name) {
-        this.name = name;
+    	if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be blank");
+            }
+    	this.name = name;
     }
 
     public String getName() {
