@@ -1,4 +1,4 @@
-package checkout.discount;
+package checkout;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import checkout.product.ProductGrupp;
 
 class DiscountTest {
 

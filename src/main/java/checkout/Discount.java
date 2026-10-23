@@ -1,4 +1,4 @@
-package checkout.discount;
+package checkout;
 
 public abstract class Discount {
 	
