@@ -5,8 +5,8 @@ public class Product {
     private Money price;
 
     public Product(String name, Money price) {
-        if (name == null|| name.isBlank()) {
-            throw new IllegalArgumentException("Name can't be null.");
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name can't be empty or null.");
         }
 
         this.name = name;

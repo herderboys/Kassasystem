@@ -27,6 +27,10 @@ public class ProductTest {
     @Test
     void productNameNotEmpty() {
         assertThrows(IllegalArgumentException.class, () -> new Product("", new Money(500)));
+    }
+
+    @Test 
+    void productNameNotOnlyWhitespace() {
         assertThrows(IllegalArgumentException.class, () -> new Product("    ", new Money(500)));
     }
 }
