@@ -13,14 +13,20 @@ public class ProductTest {
         assertEquals("Product", product.getName());
     }
 
-    @Test 
+    @Test
     void productHasPrice() {
         Product product = new Product("Product", new Money(10));
         assertEquals(new Money(10), product.getPrice());
     }
 
-    @Test 
+    @Test
     void productNameNotNull() {
         assertThrows(IllegalArgumentException.class, () -> new Product(null, new Money(500)));
+    }
+
+    @Test
+    void productNameNotEmpty() {
+        assertThrows(IllegalArgumentException.class, () -> new Product("", new Money(500)));
+        assertThrows(IllegalArgumentException.class, () -> new Product("    ", new Money(500)));
     }
 }
