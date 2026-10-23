@@ -19,4 +19,8 @@ public class ProductTest {
         assertEquals(new Money(10), product.getPrice());
     }
 
+    @Test 
+    void productNameNotNull() {
+        assertThrows(IllegalArgumentException.class, () -> new Product(null, new Money(500)));
+    }
 }
