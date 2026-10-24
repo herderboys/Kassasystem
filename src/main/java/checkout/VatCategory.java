@@ -4,6 +4,9 @@ public class VatCategory {
     private final int vatRate;
     
     public VatCategory(int vatRate) {
+        if (vatRate < 0) {
+            throw new IllegalArgumentException("VAT rate cannot be negative");
+        }
         this.vatRate = vatRate;
     }
 
