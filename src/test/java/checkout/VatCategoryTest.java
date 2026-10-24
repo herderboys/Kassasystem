@@ -6,6 +6,13 @@ import org.junit.jupiter.api.Test;
 
 public class VatCategoryTest {
     @Test
+    void zeroVatRateGivesZeroVat() {
+        VatCategory category = new VatCategory(0);
+
+        assertEquals(new Money(0), category.calculateVatFromNetPrice(new Money(10000)));
+    }
+
+    @Test
     void priceExcludingVatCannotBeNull() {
         VatCategory category = new VatCategory(25);
         assertThrows(IllegalArgumentException.class, () -> category.calculateVatFromNetPrice(null));
