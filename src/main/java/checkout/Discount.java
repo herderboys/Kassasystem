@@ -7,10 +7,17 @@ public abstract class Discount {
 	
 	public Discount(String name,int discountNumber ) {
 		
-		this.name = name;
+		if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException(
+                "Discount name cannot be null or blank"
+            );
+        }
+		
 		if (discountNumber <= 0) {
 			throw new IllegalArgumentException("Discount cannot be zero or negative");			
 		}
+		
+		this.name = name;
 		this.discountNumber = discountNumber;
 	}
 	

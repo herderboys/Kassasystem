@@ -69,6 +69,7 @@ class DiscountTest {
 
         assertTrue(discount.isValid());
     }
+
 }
 	
 	
