@@ -3,8 +3,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import checkout.product.PercentageDiscount;
-import checkout.product.ProductGrupp;
 
 class ProductGroupTest {
 
@@ -31,7 +29,7 @@ class ProductGroupTest {
 	@Test
 	void testAddProductToProductGrupp() {
 		ProductGroup grupp = new ProductGroup("Drycker");
-		Object product = new Object();
+		Product product = new Product("Läsk", new Money(1000));
 		grupp.addProduct(product);
 		assertEquals(1, grupp.getProducts().size());
 	}
@@ -39,7 +37,7 @@ class ProductGroupTest {
 	@Test
 	void testRemoveProductFromProductGrupp() {
 		ProductGroup grupp = new ProductGroup("Drycker");
-	    Object product = new Object();
+		Product product = new Product("Läsk", new Money(1000));
 
 	    grupp.addProduct(product);
 	    boolean removed = grupp.removeProduct(product);
@@ -51,7 +49,7 @@ class ProductGroupTest {
 	@Test
 	void testRemoveProductThatDoesNotExist() {
 		ProductGroup grupp = new ProductGroup("Drycker");
-	    Object product = new Object();
+		Product product = new Product("Läsk", new Money(1000));
 
 	    boolean removed = grupp.removeProduct(product);
 
@@ -63,8 +61,8 @@ class ProductGroupTest {
 	@Test
 	void testIterateOverProducts() {
 		ProductGroup grupp = new ProductGroup("Drycker");
-	    Object product1 = new Object();
-	    Object product2 = new Object();
+		Product product1 = new Product("Läsk", new Money(1000));
+		Product product2 = new Product("Godis", new Money(1000));
 
 	    grupp.addProduct(product1);
 	    grupp.addProduct(product2);
