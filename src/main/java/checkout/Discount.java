@@ -6,14 +6,12 @@ import java.time.LocalDateTime;
 public abstract class Discount {
 
     private final String name;
-    private final int discountNumber;
     private final LocalDateTime startTime;
     private final LocalDateTime endTime;
     private final Clock clock;
 
     public Discount(
             String name,
-            int discountNumber,
             LocalDateTime startTime,
             LocalDateTime endTime,
             Clock clock) {
@@ -22,11 +20,7 @@ public abstract class Discount {
             throw new IllegalArgumentException(
                 "Discount name cannot be null or blank");
         }
-
-        if (discountNumber <= 0) {
-            throw new IllegalArgumentException(
-                "Discount cannot be zero or negative");
-        }
+       
 
         if (startTime == null || endTime == null || clock == null) {
             throw new IllegalArgumentException(
@@ -39,7 +33,6 @@ public abstract class Discount {
         }
 
         this.name = name;
-        this.discountNumber = discountNumber;
         this.startTime = startTime;
         this.endTime = endTime;
         this.clock = clock;
@@ -47,10 +40,6 @@ public abstract class Discount {
 
     public String getName() {
         return name;
-    }
-
-    public int getDiscountNumber() {
-        return discountNumber;
     }
 
     public boolean isValid() {

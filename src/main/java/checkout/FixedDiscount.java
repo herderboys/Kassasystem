@@ -5,16 +5,31 @@ import java.time.LocalDateTime;
 
 public class FixedDiscount extends Discount {
 
-	public FixedDiscount(
+    private final Money discountAmount;
+
+    public FixedDiscount(
             String name,
-            int discountNumber,
+            Money discountAmount,
             LocalDateTime startTime,
             LocalDateTime endTime,
             Clock clock) {
 
-        super(name, discountNumber, startTime, endTime, clock);
+        super(name, startTime, endTime, clock);
 
-}
+        if (discountAmount == null) {
+            throw new IllegalArgumentException(
+                "Discount amount cannot be null");
+        }
 
-	
+        if (discountAmount.getAmountInOre() <= 0) {
+            throw new IllegalArgumentException(
+                "Discount amount must be positive");
+        }
+
+        this.discountAmount = discountAmount;
+    }
+
+    public Money getDiscountAmount() {
+        return discountAmount;
+    }
 }

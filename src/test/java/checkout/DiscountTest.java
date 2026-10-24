@@ -39,7 +39,7 @@ class DiscountTest {
 	@Test
 	void testGetDiscountNumber() {
 		PercentageDiscount discount = createDiscount("Discount1", 10);
-        assertEquals(10, discount.getDiscountNumber());
+        assertEquals(10, discount.getDiscountPercentage());
 	}
 	@Test
 	void testNotAcceptNegativeDiscount() {
@@ -60,7 +60,7 @@ class DiscountTest {
 	    PercentageDiscount discount =
 	    		createDiscount("Discount1", 100);
 
-	    assertEquals(100, discount.getDiscountNumber());
+	    assertEquals(100, discount.getDiscountPercentage());
 	}
 
 	@Test
