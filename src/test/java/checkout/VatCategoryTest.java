@@ -6,9 +6,15 @@ import org.junit.jupiter.api.Test;
 
 public class VatCategoryTest {
     @Test
+    void calculatesVatFromSmallNetPrice() {
+        VatCategory category = new VatCategory(25);
+        assertEquals(new Money(25), category.calculateVatFromNetPrice(new Money(100)));
+    
+    }
+
+    @Test
     void zeroVatRateGivesZeroVat() {
         VatCategory category = new VatCategory(0);
-
         assertEquals(new Money(0), category.calculateVatFromNetPrice(new Money(10000)));
     }
 
