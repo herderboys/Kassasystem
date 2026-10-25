@@ -26,5 +26,8 @@ public class MultiBuyDiscount extends Discount {
         return quantityRequired;
     }
     
+    public int getQuantityToPay() {
+        return quantityToPay;
+    }
    
 }
