@@ -16,6 +16,7 @@ public class VatCategoryTest {
     void zeroVatRateGivesZeroVat() {
         VatCategory category = new VatCategory(0);
         assertEquals(new Money(0), category.calculateVatFromNetPrice(new Money(10000)));
+        assertEquals(new Money(0), category.calculateVatFromNetPrice(new Money(100)));
     }
 
     @Test
