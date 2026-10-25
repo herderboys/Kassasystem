@@ -33,7 +33,18 @@ public class ProductGroup {
                 "Product cannot be null"
             );
         }
+        if (product.getProductGroup() != null
+                && product.getProductGroup() != this) {
+            throw new IllegalArgumentException(
+                "Product already belongs to another group");
+        }
+
+        if (products.contains(product)) {
+            return;
+        }
+
         products.add(product);
+        product.setProductGroup(this);
     }
 
     public boolean removeProduct(Product product) {

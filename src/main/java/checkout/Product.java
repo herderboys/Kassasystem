@@ -3,6 +3,7 @@ package checkout;
 public class Product {
     private final String name;
     private final Money price;
+    private ProductGroup productGroup;
 
     public Product(String name, Money price) {
         if (name == null || name.isBlank()) {
@@ -22,5 +23,13 @@ public class Product {
 
     public Money getPrice() {
         return price;
+    }
+    
+    public ProductGroup getProductGroup() {
+        return productGroup;
+    }
+
+    void setProductGroup(ProductGroup productGroup) {
+        this.productGroup = productGroup;
     }
 }
