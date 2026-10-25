@@ -4,6 +4,9 @@ public class VatCategory {
     private final int vatRate;
     
     public VatCategory(int vatRate) {
+        if (vatRate < 0) {
+            throw new IllegalArgumentException("VAT rate cannot be negative");
+        }
         this.vatRate = vatRate;
     }
 
@@ -12,6 +15,9 @@ public class VatCategory {
     }
 
     public Money calculateVatFromNetPrice(Money priceExcludingVat) {
+        if (priceExcludingVat == null) {
+            throw new IllegalArgumentException("Price excluding VAT cannot be null");
+        }
         int vatInOre = priceExcludingVat.getAmountInOre() * vatRate / 100;
         return new Money(vatInOre);
     }

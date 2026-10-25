@@ -1,9 +1,34 @@
 package checkout;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 public class VatCategoryTest {
+    @Test
+    void calculatesVatFromSmallNetPrice() {
+        VatCategory category = new VatCategory(25);
+        assertEquals(new Money(25), category.calculateVatFromNetPrice(new Money(100)));
+    
+    }
+
+    @Test
+    void zeroVatRateGivesZeroVat() {
+        VatCategory category = new VatCategory(0);
+        assertEquals(new Money(0), category.calculateVatFromNetPrice(new Money(10000)));
+    }
+
+    @Test
+    void priceExcludingVatCannotBeNull() {
+        VatCategory category = new VatCategory(25);
+        assertThrows(IllegalArgumentException.class, () -> category.calculateVatFromNetPrice(null));
+    }
+
+    @Test
+    void vatRateCannotBeNegative() {
+        assertThrows(IllegalArgumentException.class, () -> new VatCategory(-1));
+    }
+
     @Test
     void vatCategoryReturnsItsVatRate() {
         VatCategory category = new VatCategory(25);
