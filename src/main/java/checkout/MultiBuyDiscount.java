@@ -17,7 +17,11 @@ public class MultiBuyDiscount extends Discount {
             Clock clock) {
 
         super(name, startDate, endDate, clock);
-      
+        
+    if (quantityRequired <= quantityToPay) {
+           throw new IllegalArgumentException(
+           "quantityRequired cannot be samme or below or quantityToPay");
+    }  
         
         
         this.quantityRequired = quantityRequired;

@@ -104,7 +104,7 @@ class DiscountTest {
 		
 		assertThrows(
 		        IllegalArgumentException.class,
-		        () -> createMultiBuyDiscount("3 for 2", 3, 2)
+		        () -> createMultiBuyDiscount("3 for 2", 2, 3)
 		    );
 		
 	}
