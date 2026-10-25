@@ -12,13 +12,10 @@ import org.junit.jupiter.api.Test;
 
 class DiscountTest {
 	
-	private PercentageDiscount createDiscount(String name, int discountNumber) {
+	private PercentageDiscount createPercentageDiscount(String name, int discountNumber) {
 	    ZoneId zone = ZoneId.of("Europe/Stockholm");
 
-	    Clock clock = Clock.fixed(
-	        Instant.parse("2026-10-23T10:00:00Z"),
-	        zone
-	    );
+	    Clock clock = Clock.fixed(Instant.parse("2026-10-23T10:00:00Z"),zone);
 
 	    return new PercentageDiscount(
 	        name,
@@ -29,36 +26,51 @@ class DiscountTest {
 	    );
 	}
 	
+	private MultiBuyDiscount createMultiBuyDiscount(String name, int quantityRequired,int quantityToPay) {
+	    ZoneId zone = ZoneId.of("Europe/Stockholm");
+
+	    Clock clock = Clock.fixed(Instant.parse("2026-10-23T10:00:00Z"),zone);
+
+	    return new MultiBuyDiscount(
+	        name,
+	        quantityRequired,
+	        quantityToPay,
+	        LocalDateTime.of(2026, 10, 23, 11, 0),
+	        LocalDateTime.of(2029, 10, 23, 13, 0),
+	        clock
+	    );
+	}
+	
 
 	@Test
 	void testGetNamn() {
-		PercentageDiscount discount = createDiscount("Discount1", 10);
+		PercentageDiscount discount = createPercentageDiscount("Discount1", 10);
         assertEquals("Discount1", discount.getName());
 	}
 	
 	@Test
 	void testGetDiscountNumber() {
-		PercentageDiscount discount = createDiscount("Discount1", 10);
+		PercentageDiscount discount = createPercentageDiscount("Discount1", 10);
         assertEquals(10, discount.getDiscountPercentage());
 	}
 	@Test
 	void testNotAcceptNegativeDiscount() {
 		assertThrows(
 		        IllegalArgumentException.class,
-		        () -> createDiscount("Discount1", -10));
+		        () -> createPercentageDiscount("Discount1", -10));
 	}
 	@Test
 	void testPercentileDiscountCantBeOver100() {
 	    assertThrows(
 	        IllegalArgumentException.class,
-	        () -> createDiscount("Discount1", 101)
+	        () -> createPercentageDiscount("Discount1", 101)
 	    );
 	}
 	
 	@Test
 	void testAccepts100PercentDiscount() {
 	    PercentageDiscount discount =
-	    		createDiscount("Discount1", 100);
+	    		createPercentageDiscount("Discount1", 100);
 
 	    assertEquals(100, discount.getDiscountPercentage());
 	}
@@ -67,9 +79,20 @@ class DiscountTest {
 	void testRejectsZeroPercentDiscount() {
 	    assertThrows(
 	        IllegalArgumentException.class,
-	        () -> createDiscount("Discount1", 0)
+	        () -> createPercentageDiscount("Discount1", 0)
 	    );
 	}
+	
+	@Test
+    void testMultiBuyReturnQuantityRequired() {
+		MultiBuyDiscount discount = createMultiBuyDiscount("3 for 2", 3, 2);
+		
+		assertEquals(3, discount.getQuantityRequired());
+		
+	}
+	
+	
+	
 	
 	@Test
     void testDiscountIsValidDuringValidityPeriod() {
@@ -80,7 +103,7 @@ class DiscountTest {
             zone
         );
 
-        PercentageDiscount discount = createDiscount(
+        PercentageDiscount discount = createPercentageDiscount(
             "Sommarrea", 10);
 
         assertTrue(discount.isValid());
