@@ -97,6 +97,24 @@ class ProductGroupTest {
 	}
 	
 	@Test
+	void testProductsCantBeInMoreThenOneGroup() {
+		ProductGroup grupp1 = new ProductGroup("Drycker");
+		ProductGroup grupp2 = new ProductGroup("Drycker");
+		Product product = new Product("Godis", new Money(1000));
+
+		grupp1.addProduct(product);
+
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> grupp2.addProduct(product)
+	    );
+
+	    assertEquals(1, grupp1.getProducts().size());
+	    assertEquals(0, grupp2.getProducts().size());
+	}
+	
+	
+	@Test
 	void testGetRemovedDiscount() {
 		
 		

@@ -40,13 +40,14 @@ public class ProductGroup {
         return products.remove(product);
     }
 
+    public void removeDiscount(Discount discount) {
+       
+        discounts.remove(discount);
+    }
+    
     public void addDiscount(Discount discount) {
-        if (discount == null) {
-            throw new IllegalArgumentException(
-                "Discount cannot be null"
-            );
-        }
-        discounts.add(discount);
+       
+         discounts.add(discount);
     }
 
     public List<Discount> getDiscounts() {
