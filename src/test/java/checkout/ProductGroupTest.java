@@ -116,17 +116,15 @@ class ProductGroupTest {
 	
 	@Test
 	void testGetRemovedDiscount() {
-		
-		
-		PercentageDiscount discount = createPercentageDiscount("Discount1", 10);
-	    assertEquals("Discount1", discount.getName());
-		
-		ProductGroup grupp = new ProductGroup("Drycker");
+	    PercentageDiscount discount =
+	        createPercentageDiscount("Discount1", 10);
+
+	    ProductGroup grupp = new ProductGroup("Drycker");
 
 	    grupp.addDiscount(discount);
-	    
 	    grupp.removeDiscount(discount);
 
-	    assertSame(discount, grupp.getDiscounts().get(0));
+	    assertFalse(grupp.getDiscounts().contains(discount));
+	    assertEquals(0, grupp.getDiscounts().size());
 	}
 }
