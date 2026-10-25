@@ -44,5 +44,8 @@ public class VatCategoryTest {
 
         VatCategory otherCategory = new VatCategory(12);
         assertEquals(new Money(1200), otherCategory.calculateVatFromNetPrice(priceExcludingVat));
+
+        VatCategory sixPercentCategory = new VatCategory(6);
+        assertEquals(new Money(600), sixPercentCategory.calculateVatFromNetPrice(priceExcludingVat));
     }
 }
