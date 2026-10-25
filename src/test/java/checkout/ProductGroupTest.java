@@ -99,7 +99,7 @@ class ProductGroupTest {
 	@Test
 	void testProductsCantBeInMoreThenOneGroup() {
 		ProductGroup grupp1 = new ProductGroup("Drycker");
-		ProductGroup grupp2 = new ProductGroup("Drycker");
+		ProductGroup grupp2 = new ProductGroup("mat");
 		Product product = new Product("Godis", new Money(1000));
 
 		grupp1.addProduct(product);
