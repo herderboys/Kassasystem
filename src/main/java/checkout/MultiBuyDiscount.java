@@ -17,7 +17,9 @@ public class MultiBuyDiscount extends Discount {
             Clock clock) {
 
         super(name, startDate, endDate, clock);
-
+      
+        
+        
         this.quantityRequired = quantityRequired;
         this.quantityToPay = quantityToPay;
     }

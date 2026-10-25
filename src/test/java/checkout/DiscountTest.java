@@ -87,7 +87,7 @@ class DiscountTest {
     void testMultiBuyReturnQuantityRequired() {
 		MultiBuyDiscount discount = createMultiBuyDiscount("3 for 2", 3, 2);
 		
-		assertEquals(2, discount.getQuantityToPay());
+		assertEquals(3, discount.getQuantityRequired());
 		
 	}
 	
@@ -95,7 +95,17 @@ class DiscountTest {
     void testMultiBuyReturnQuantityToPay() {
 		MultiBuyDiscount discount = createMultiBuyDiscount("3 for 2", 3, 2);
 		
-		assertEquals(3, discount.getQuantityRequired());
+		assertEquals(2, discount.getQuantityToPay());
+		
+	}
+	
+	@Test
+    void testMultiBuyReturnQuantityLessThanQuantityToPay() {
+		
+		assertThrows(
+		        IllegalArgumentException.class,
+		        () -> createMultiBuyDiscount("3 for 2", 3, 2)
+		    );
 		
 	}
 	
