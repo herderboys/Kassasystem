@@ -87,11 +87,17 @@ class DiscountTest {
     void testMultiBuyReturnQuantityRequired() {
 		MultiBuyDiscount discount = createMultiBuyDiscount("3 for 2", 3, 2);
 		
-		assertEquals(3, discount.getQuantityRequired());
+		assertEquals(2, discount.getQuantityToPay());
 		
 	}
 	
-	
+	@Test
+    void testMultiBuyReturnQuantityToPay() {
+		MultiBuyDiscount discount = createMultiBuyDiscount("3 for 2", 3, 2);
+		
+		assertEquals(3, discount.getQuantityRequired());
+		
+	}
 	
 	
 	@Test
