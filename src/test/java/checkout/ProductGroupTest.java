@@ -25,7 +25,31 @@ class ProductGroupTest {
 	    );
 	}
 	
+	@Test
+	void testRejectsNullName() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> new ProductGroup(null)
+	    );
+	}
 
+	@Test
+	void testRejectsEmptyName() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> new ProductGroup("")
+	    );
+	}
+
+	@Test
+	void testRejectsBlankName() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> new ProductGroup("   ")
+	    );
+	}
+	
+	
 	@Test
 	void testGetProductGruppName() {
 		ProductGroup grupp = new ProductGroup("Drycker");
