@@ -36,6 +36,6 @@ public class Money {
     }
 
     public Money percentage(int percent) {
-        return new Money((int)(ore * (0.01 * percent)));
+        return new Money(ore * percent / 100);
     }
 }
