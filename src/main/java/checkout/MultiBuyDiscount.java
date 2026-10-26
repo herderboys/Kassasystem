@@ -28,7 +28,10 @@ public class MultiBuyDiscount extends Discount {
         "quantityToPay cannot be 0");
     } 
     
-    
+    if (quantityToPay < 0 || quantityRequired < 0) {
+        throw new IllegalArgumentException(
+        "quantityToPay cannot be 0");
+    } 
         
         this.quantityRequired = quantityRequired;
         this.quantityToPay = quantityToPay;
