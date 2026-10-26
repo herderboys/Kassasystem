@@ -61,6 +61,35 @@ class ProductGroupTest {
 	    assertEquals(0, grupp.getProducts().size());
 	}
 	
+	@Test
+	void testGetProductsReturnsCopy() {
+	    ProductGroup grupp = new ProductGroup("Drycker");
+	    Product product = new Product("Läsk", new Money(1000));
+
+	    grupp.addProduct(product);
+
+	    var products = grupp.getProducts();
+	    products.clear();
+
+	    assertEquals(1, grupp.getProducts().size());
+	}
+	
+	@Test
+	void testRemovedProductCanBeAddedToAnotherGroup() {
+	    ProductGroup grupp1 = new ProductGroup("Drycker");
+	    ProductGroup grupp2 = new ProductGroup("Mat");
+	    Product product = new Product("Läsk", new Money(1000));
+
+	    grupp1.addProduct(product);
+	    grupp1.removeProduct(product);
+
+	    assertDoesNotThrow(() -> grupp2.addProduct(product));
+
+	    assertEquals(0, grupp1.getProducts().size());
+	    assertEquals(1, grupp2.getProducts().size());
+	    assertSame(grupp2, product.getProductGroup());
+	}
+	
 	
 	@Test
 	void testGetProductGruppName() {
@@ -122,6 +151,16 @@ class ProductGroupTest {
 	    grupp.addProduct(product);
 
 	    assertEquals(1, grupp.getProducts().size());
+	}
+	
+	@Test
+	void testAddingProductSetsItsProductGroup() {
+	    ProductGroup grupp = new ProductGroup("Drycker");
+	    Product product = new Product("Läsk", new Money(1000));
+
+	    grupp.addProduct(product);
+
+	    assertSame(grupp, product.getProductGroup());
 	}
 	
 	@Test
