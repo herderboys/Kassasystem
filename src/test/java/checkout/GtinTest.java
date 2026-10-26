@@ -23,4 +23,9 @@ public class GtinTest {
     void nullGtinIsRejected() {
         assertThrows(IllegalArgumentException.class, () -> new Gtin(null));
     }
+
+    @Test 
+    void blankGtinIsRejected() {
+        assertThrows(IllegalArgumentException.class, () -> new Gtin("  "));
+    }
 }
