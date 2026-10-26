@@ -18,6 +18,12 @@ public class Gtin {
         if (code.length() != 13) {
             throw new IllegalArgumentException("GTIN code must have a length of 13.");
         }
+
+        // checks if something is not a digit (\\d)
+        if (!code.matches("\\d+")) {
+            throw new IllegalArgumentException("GTIN code must contain only digits.");
+        }
+
         this.code = code;
     }
 
