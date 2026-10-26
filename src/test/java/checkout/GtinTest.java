@@ -12,4 +12,10 @@ public class GtinTest {
         Gtin gtin = new Gtin("4006381333931");
         assertEquals("4006381333931", gtin.getCode());
     }
+
+    @Test 
+    void gtinWithSeparatorsIsNormalized() {
+        Gtin gtin = new Gtin("400 6381-333931");
+        assertEquals("4006381333931", gtin.getCode());
+    }
 }
