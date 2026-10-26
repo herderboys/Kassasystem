@@ -59,9 +59,9 @@ public class MoneyTest {
     }
 
     @Test 
-    void canTakePercentage() {
+    void percentageReturnsShareOfAmount() {
         Money money = new Money(1000);
-        Money reduced = money.percent(25);
+        Money reduced = money.percentage(25);
         assertEquals(new Money(250), reduced);
     }
 }
