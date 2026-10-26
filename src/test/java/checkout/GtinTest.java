@@ -48,4 +48,10 @@ public class GtinTest {
     void gtinWithWrongCheckDigitIsRejected() {
         assertThrows(IllegalArgumentException.class, () -> new Gtin("4006381333939"));
     }
+
+    @Test 
+    void gtinWithCheckDigitZeroIsAccepted() {
+        Gtin gtin = new Gtin("5006381333930");
+        assertEquals("5006381333930", gtin.getCode());
+    }
 }
