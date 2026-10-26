@@ -124,6 +124,14 @@ class DiscountTest {
 
         assertTrue(discount.isValid());
     }
+	
+	@Test
+	void testMultiBuyRejectsEqualQuantities() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> createMultiBuyDiscount("2 for 2", 2, 2)
+	    );
+	}
 
 }
 	
