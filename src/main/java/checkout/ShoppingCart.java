@@ -8,7 +8,10 @@ public class ShoppingCart {
     HashMap<Product, Integer> cart = new HashMap<>();
 
     public void addItem(Product p){
-        cart.put(p, 1);
+        if (cart.containsKey(p)){
+            cart.put(p, cart.get(p) + 1);
+        }
+        else cart.put(p, 1);
     }
 
     public void removeItem(Product p){
