@@ -15,7 +15,7 @@ public class Gtin {
         // replacing whitespace (\\s) and dashes with an empty string, no char
         code = code.replaceAll("[\\s-]", "");
 
-        if (code.length() < 13) {
+        if (code.length() != 13) {
             throw new IllegalArgumentException("GTIN code must have a length of 13.");
         }
         this.code = code;
