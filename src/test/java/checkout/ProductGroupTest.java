@@ -49,6 +49,18 @@ class ProductGroupTest {
 	    );
 	}
 	
+	@Test
+	void testRejectsNullProduct() {
+	    ProductGroup grupp = new ProductGroup("Drycker");
+
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> grupp.addProduct(null)
+	    );
+
+	    assertEquals(0, grupp.getProducts().size());
+	}
+	
 	
 	@Test
 	void testGetProductGruppName() {
@@ -101,6 +113,16 @@ class ProductGroupTest {
 	    assertEquals(0, grupp.getProducts().size());
 	}
 	
+	@Test
+	void testDoesNotAddSameProductTwice() {
+	    ProductGroup grupp = new ProductGroup("Drycker");
+	    Product product = new Product("Läsk", new Money(1000));
+
+	    grupp.addProduct(product);
+	    grupp.addProduct(product);
+
+	    assertEquals(1, grupp.getProducts().size());
+	}
 	
 	@Test
 	void testIterateOverProducts() {
