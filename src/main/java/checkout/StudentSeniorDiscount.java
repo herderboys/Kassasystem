@@ -3,11 +3,14 @@ package checkout;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
-public class StudentSeniorDiscount extends Discount{
+public class StudentSeniorDiscount extends PercentageDiscount {
 
-	public StudentSeniorDiscount(String name, LocalDateTime startTime, LocalDateTime endTime, Clock clock) {
-		super(name, startTime, endTime, clock);
-		// TODO Auto-generated constructor stub
-	}
+    public static final int DISCOUNT_PERCENTAGE = 10;
 
+    public StudentSeniorDiscount(
+      String name,LocalDateTime startTime,LocalDateTime endTime,Clock clock) {
+
+        super(name,DISCOUNT_PERCENTAGE,startTime,endTime,clock
+        );
+    }
 }
