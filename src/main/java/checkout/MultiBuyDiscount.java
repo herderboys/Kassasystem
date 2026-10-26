@@ -22,7 +22,12 @@ public class MultiBuyDiscount extends Discount {
            throw new IllegalArgumentException(
            "quantityRequired cannot be samme or below or quantityToPay");
     }  
-        
+    
+    if (quantityToPay == 0) {
+        throw new IllegalArgumentException(
+        "quantityToPay cannot be 0");
+ } 
+    
         
         this.quantityRequired = quantityRequired;
         this.quantityToPay = quantityToPay;
