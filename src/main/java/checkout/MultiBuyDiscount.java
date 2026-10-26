@@ -18,20 +18,17 @@ public class MultiBuyDiscount extends Discount {
 
         super(name, startDate, endDate, clock);
         
-    if (quantityRequired <= quantityToPay) {
-           throw new IllegalArgumentException(
-           "quantityRequired cannot be samme or below or quantityToPay");
-    }  
-    
-    if (quantityToPay == 0) {
-        throw new IllegalArgumentException(
-        "quantityToPay cannot be 0");
-    } 
-    
-    if (quantityToPay < 0 || quantityRequired < 0) {
-        throw new IllegalArgumentException(
-        "quantityToPay or quantityRequired cannot be negative");
-    } 
+        if (quantityRequired <= 0 || quantityToPay <= 0) {
+            throw new IllegalArgumentException(
+                "Quantities must be greater than zero"
+            );
+        }
+
+        if (quantityRequired <= quantityToPay) {
+            throw new IllegalArgumentException(
+                "quantityRequired must be greater than quantityToPay"
+            );
+        } 
         
         this.quantityRequired = quantityRequired;
         this.quantityToPay = quantityToPay;

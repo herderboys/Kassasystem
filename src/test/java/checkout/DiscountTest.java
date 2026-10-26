@@ -100,7 +100,7 @@ class DiscountTest {
 	}
 	
 	@Test
-    void testMultiBuyReturnQuantityLessThanQuantityToPay() {
+    void testMultiBuyRejectsQuantityRequiredLessThanQuantityToPay() {
 		
 		assertThrows(
 		        IllegalArgumentException.class,
@@ -139,6 +139,22 @@ class DiscountTest {
 	    assertThrows(
 	        IllegalArgumentException.class,
 	        () -> createMultiBuyDiscount("Invalid", -1, -2)
+	    );
+	}
+	
+	@Test
+	void testMultiBuyRejectsNegativeQuantityRequired() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> createMultiBuyDiscount("Invalid", -1, 1)
+	    );
+	}
+
+	@Test
+	void testMultiBuyRejectsNegativeQuantityToPay() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> createMultiBuyDiscount("Invalid", 3, -1)
 	    );
 	}
 
