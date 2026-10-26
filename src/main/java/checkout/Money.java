@@ -35,7 +35,8 @@ public class Money {
         return new Money(ore - other.getAmountInOre());
     }
 
+    // + 50 helps with rounding correctly
     public Money percentage(int percent) {
-        return new Money(ore * percent / 100);
+        return new Money((ore * percent + 50) / 100);
     }
 }
