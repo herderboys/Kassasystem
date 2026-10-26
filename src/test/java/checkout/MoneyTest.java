@@ -63,4 +63,10 @@ public class MoneyTest {
         Money money = new Money(1000);
         assertEquals(new Money(250), money.percentage(25));
     }
+
+    @Test 
+    void percentageIsExactWhenResultIsWholeOre() {
+        Money money = new Money(100);
+        assertEquals(new Money(29), money.percentage(29));
+    }
 }
