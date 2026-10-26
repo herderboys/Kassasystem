@@ -18,4 +18,9 @@ public class GtinTest {
         Gtin gtin = new Gtin("400 6381-333931");
         assertEquals("4006381333931", gtin.getCode());
     }
+
+    @Test 
+    void nullGtinIsRejected() {
+        assertThrows(IllegalArgumentException.class, () -> new Gtin(null));
+    }
 }
