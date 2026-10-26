@@ -50,4 +50,17 @@ public class Gtin {
     public String getCode() {
         return code;
     }
+
+    @Override 
+    public boolean equals(Object other) {
+        if (other instanceof Gtin g) {
+            return code.equals(g.getCode());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return code.hashCode();
+    }
 }

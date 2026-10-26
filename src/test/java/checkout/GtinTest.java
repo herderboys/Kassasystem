@@ -56,7 +56,7 @@ public class GtinTest {
     }
 
     @Test 
-    void twoGtinWithDifferentFormatAreEqual() {
+    void twoGtinWithDifferentFormatsAreEqual() {
         Gtin gtin1 = new Gtin("4006381333931");
         Gtin gtin2 = new Gtin("400 6381-333931");
         assertEquals(gtin1, gtin2);
