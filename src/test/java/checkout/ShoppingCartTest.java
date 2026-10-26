@@ -103,6 +103,27 @@ public class ShoppingCartTest {
 
     }
 
+    @Test
+    void getPriceOfCartTest(){
+
+        Product product = new Product("testProduct", new Money(10));
+
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+
+        shoppingCart.addItem(product);
+
+        shoppingCart.addItem(product);
+
+
+        Money price = shoppingCart.getPrice();
+
+
+
+        assertEquals(20, price.getAmountInOre());
+
+    }
+
 
 
 }

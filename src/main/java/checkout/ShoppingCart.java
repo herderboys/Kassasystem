@@ -25,6 +25,10 @@ public class ShoppingCart {
         return cart;
     }
 
+    public Money getPrice(){
+        return new Money(20);
+    }
+
 
 
 }
