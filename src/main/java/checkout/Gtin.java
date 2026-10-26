@@ -8,6 +8,10 @@ public class Gtin {
             throw new IllegalArgumentException("GTIN code cannot be null.");
         }
 
+        if (code.isBlank()) {
+            throw new IllegalArgumentException("GTIN code cannot be blank.");
+        }
+
         // replacing whitespace (\\s) and dashes with an empty string, no char
         code = code.replaceAll("[\\s-]", "");
         this.code = code;
