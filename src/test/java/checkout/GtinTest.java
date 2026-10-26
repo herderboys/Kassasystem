@@ -40,7 +40,7 @@ public class GtinTest {
     }
 
     @Test 
-    void gtinWithLetterIsRejected() {
+    void gtinWithCharacterOtherThanNumberIsRejected() {
         assertThrows(IllegalArgumentException.class, () -> new Gtin("40063813339a1"));
     }
 }
