@@ -48,7 +48,12 @@ public class ProductGroup {
     }
 
     public boolean removeProduct(Product product) {
-        return products.remove(product);
+        if (!products.remove(product)) {
+            return false;
+        }
+
+        product.setProductGroup(null);
+        return true;
     }
 
     public void removeDiscount(Discount discount) {
