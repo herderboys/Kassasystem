@@ -9,13 +9,14 @@ public class VatCategoryTest {
     void calculatesVatFromSmallNetPrice() {
         VatCategory category = new VatCategory(25);
         assertEquals(new Money(25), category.calculateVatFromNetPrice(new Money(100)));
-    
+        assertEquals(new Money(0), category.calculateVatFromNetPrice(new Money(3)));
     }
 
     @Test
     void zeroVatRateGivesZeroVat() {
         VatCategory category = new VatCategory(0);
         assertEquals(new Money(0), category.calculateVatFromNetPrice(new Money(10000)));
+        assertEquals(new Money(0), category.calculateVatFromNetPrice(new Money(100)));
     }
 
     @Test
@@ -41,5 +42,11 @@ public class VatCategoryTest {
         Money priceExcludingVat = new Money(10000);
 
         assertEquals(new Money(2500), category.calculateVatFromNetPrice(priceExcludingVat));
+
+        VatCategory otherCategory = new VatCategory(12);
+        assertEquals(new Money(1200), otherCategory.calculateVatFromNetPrice(priceExcludingVat));
+
+        VatCategory sixPercentCategory = new VatCategory(6);
+        assertEquals(new Money(600), sixPercentCategory.calculateVatFromNetPrice(priceExcludingVat));
     }
 }
