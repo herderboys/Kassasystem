@@ -61,7 +61,6 @@ public class MoneyTest {
     @Test 
     void percentageReturnsShareOfAmount() {
         Money money = new Money(1000);
-        Money reduced = money.percentage(25);
-        assertEquals(new Money(250), reduced);
+        assertEquals(new Money(250), money.percentage(25));
     }
 }
