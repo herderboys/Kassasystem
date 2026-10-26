@@ -11,8 +11,14 @@ public class ShoppingCart {
         cart.put(p, 1);
     }
 
+    public void removeItem(Product p){
+        cart.remove(p);
+    }
+
     public HashMap<Product, Integer> getCart(){
         return cart;
     }
+
+
 
 }
