@@ -132,6 +132,14 @@ class DiscountTest {
 	        () -> createMultiBuyDiscount("2 for 2", 2, 2)
 	    );
 	}
+	
+	@Test
+	void testMultiBuyRejectsZeroQuantityToPay() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> createMultiBuyDiscount("3 for 0", 3, 0)
+	    );
+	}
 
 }
 	
