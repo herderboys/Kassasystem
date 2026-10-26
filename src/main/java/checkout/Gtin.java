@@ -24,6 +24,26 @@ public class Gtin {
             throw new IllegalArgumentException("GTIN code must have a length of 13.");
         }
 
+        /*
+         * loops through and multiplies each number with a weight,
+         * puts in a sum, checks if last digit if correct according
+         * to GTIN standard
+         */
+        int sum = 0;
+        for (int i = 0; i < 12; i++) {
+            if (i % 2 == 0) {
+                sum += (Character.getNumericValue(code.charAt(i)) * 1);
+            } else {
+                sum += (Character.getNumericValue(code.charAt(i)) * 3);
+            }
+        }
+
+        int expectedCheckDigit = (10 - sum % 10) % 10;
+
+        if (Character.getNumericValue(code.charAt(12)) != expectedCheckDigit) {
+            throw new IllegalArgumentException("GTIN code has wrong check digit.");
+        }
+
         this.code = code;
     }
 
