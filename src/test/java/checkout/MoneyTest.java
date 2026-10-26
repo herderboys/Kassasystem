@@ -69,4 +69,10 @@ public class MoneyTest {
         Money money = new Money(100);
         assertEquals(new Money(29), money.percentage(29));
     }
+
+    @Test 
+    void percentageRoundsHalfOreUp() {
+        Money money = new Money(150);
+        assertEquals(new Money(2), money.percentage(1));
+    }
 }
