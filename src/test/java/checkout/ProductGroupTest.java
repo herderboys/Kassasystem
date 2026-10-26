@@ -115,6 +115,20 @@ class ProductGroupTest {
 	}
 	
 	@Test
+	void testGetDiscountsReturnsCopy() {
+	    ProductGroup grupp = new ProductGroup("Drycker");
+	    PercentageDiscount discount =
+	        createPercentageDiscount("Discount1", 10);
+
+	    grupp.addDiscount(discount);
+
+	    var discounts = grupp.getDiscounts();
+	    discounts.clear();
+
+	    assertEquals(1, grupp.getDiscounts().size());
+	}
+	
+	@Test
 	void testAddDiscountToGrupp() {
 		ProductGroup grupp = new ProductGroup("Drycker");
 		PercentageDiscount discount = createPercentageDiscount("Discount1", 10);
