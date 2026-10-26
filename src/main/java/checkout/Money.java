@@ -34,4 +34,8 @@ public class Money {
     public Money subtract(Money other) {
         return new Money(ore - other.getAmountInOre());
     }
+
+    public Money percentage(int percent) {
+        return new Money((int)(ore * (0.01 * percent)));
+    }
 }
