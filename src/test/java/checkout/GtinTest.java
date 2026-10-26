@@ -43,4 +43,9 @@ public class GtinTest {
     void gtinWithCharacterOtherThanNumberIsRejected() {
         assertThrows(IllegalArgumentException.class, () -> new Gtin("40063813339a1"));
     }
+
+    @Test 
+    void gtinWithWrongCheckDigitIsRejected() {
+        assertThrows(IllegalArgumentException.class, () -> new Gtin("4006381333939"));
+    }
 }
