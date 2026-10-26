@@ -33,4 +33,9 @@ public class GtinTest {
     void gtinWithLessThanThirteenDigitsIsRejected() {
         assertThrows(IllegalArgumentException.class, () -> new Gtin("400638133393"));
     }
+
+    @Test 
+    void gtinWithMoreThanThirteenDigitsIsRejected() {
+        assertThrows(IllegalArgumentException.class, () -> new Gtin("40063813339310"));
+    }
 }
