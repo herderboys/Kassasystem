@@ -41,7 +41,23 @@ class DiscountTest {
 	    );
 	}
 	
-
+	@Test
+	void testDiscountRejectsNullName() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> createPercentageDiscount(null, 10)
+	    );
+	}
+	
+	@Test
+	void testDiscountRejectsBlankName() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> createPercentageDiscount("   ", 10)
+	    );
+	}
+	
+	
 	@Test
 	void testGetNamn() {
 		PercentageDiscount discount = createPercentageDiscount("Discount1", 10);
@@ -135,14 +151,6 @@ class DiscountTest {
 	}
 	
 	@Test
-	void testMultiBuyRejectsNegativeQuantities() {
-	    assertThrows(
-	        IllegalArgumentException.class,
-	        () -> createMultiBuyDiscount("Invalid", -1, -2)
-	    );
-	}
-	
-	@Test
 	void testMultiBuyRejectsNegativeQuantityRequired() {
 	    assertThrows(
 	        IllegalArgumentException.class,
@@ -155,6 +163,82 @@ class DiscountTest {
 	    assertThrows(
 	        IllegalArgumentException.class,
 	        () -> createMultiBuyDiscount("Invalid", 3, -1)
+	    );
+	}
+	
+	@Test
+	void testDiscountRejectsEndDateBeforeStartDate() {
+	    ZoneId zone = ZoneId.of("Europe/Stockholm");
+	    Clock clock = Clock.fixed(
+	        Instant.parse("2026-10-23T10:00:00Z"),
+	        zone
+	    );
+
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> new PercentageDiscount(
+	            "Discount1",
+	            10,
+	            LocalDateTime.of(2027, 1, 1, 12, 0),
+	            LocalDateTime.of(2026, 1, 1, 12, 0),
+	            clock
+	        )
+	    );
+	}
+	
+	@Test
+	void testDiscountIsNotValidAfterEndDate() {
+	    ZoneId zone = ZoneId.of("Europe/Stockholm");
+	    Clock clock = Clock.fixed(
+	        Instant.parse("2026-10-23T10:00:00Z"),
+	        zone
+	    );
+
+	    PercentageDiscount discount = new PercentageDiscount(
+	        "Discount1",
+	        10,
+	        LocalDateTime.of(2026, 10, 1, 0, 0),
+	        LocalDateTime.of(2026, 10, 20, 23, 59),
+	        clock
+	    );
+
+	    assertFalse(discount.isValid());
+	}
+	
+	@Test
+	void testDiscountIsNotValidBeforeStartDate() {
+	    ZoneId zone = ZoneId.of("Europe/Stockholm");
+
+	    Clock clock = Clock.fixed(
+	        Instant.parse("2026-10-23T08:00:00Z"),
+	        zone
+	    );
+
+	    PercentageDiscount discount = new PercentageDiscount(
+	        "Discount1",
+	        10,
+	        LocalDateTime.of(2026, 10, 23, 11, 0),
+	        LocalDateTime.of(2029, 10, 23, 13, 0),
+	        clock
+	    );
+
+	    assertFalse(discount.isValid());
+	}
+	
+	@Test
+	void testDiscountRejectsNullStartTime() {
+	    ZoneId zone = ZoneId.of("Europe/Stockholm");
+	    Clock clock = Clock.system(zone);
+
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> new PercentageDiscount(
+	            "Discount1",
+	            10,
+	            null,
+	            LocalDateTime.of(2029, 10, 23, 13, 0),
+	            clock
+	        )
 	    );
 	}
 
