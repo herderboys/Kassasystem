@@ -90,6 +90,17 @@ class ProductGroupTest {
 	    assertSame(grupp2, product.getProductGroup());
 	}
 	
+	@Test
+	void testRemovingProductResetsProductGroup() {
+	    ProductGroup grupp = new ProductGroup("Drycker");
+	    Product product = new Product("Läsk", new Money(1000));
+
+	    grupp.addProduct(product);
+
+	    grupp.removeProduct(product);
+
+	    assertNull(product.getProductGroup());
+	}
 	
 	@Test
 	void testGetProductGruppName() {
