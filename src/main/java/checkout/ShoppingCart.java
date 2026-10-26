@@ -15,7 +15,10 @@ public class ShoppingCart {
     }
 
     public void removeItem(Product p){
-        cart.remove(p);
+        if(cart.get(p) > 1){
+            cart.put(p, cart.get(p) - 1);
+        }
+        else cart.remove(p);
     }
 
     public HashMap<Product, Integer> getCart(){
