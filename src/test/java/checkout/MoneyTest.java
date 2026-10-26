@@ -57,4 +57,11 @@ public class MoneyTest {
 
         assertEquals(first, second);
     }
+
+    @Test 
+    void canTakePercentage() {
+        Money money = new Money(1000);
+        Money reduced = money.percent(25);
+        assertEquals(new Money(250), reduced);
+    }
 }
