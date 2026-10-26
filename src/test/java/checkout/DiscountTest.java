@@ -111,19 +111,12 @@ class DiscountTest {
 	
 	
 	@Test
-    void testDiscountIsValidDuringValidityPeriod() {
-        ZoneId zone = ZoneId.of("Europe/Stockholm");
+	void testDiscountIsValidDuringValidityPeriod() {
+	    PercentageDiscount discount =
+	        createPercentageDiscount("Sommarrea", 10);
 
-        Clock clock = Clock.fixed(
-            Instant.parse("2026-10-23T10:00:00Z"),
-            zone
-        );
-
-        PercentageDiscount discount = createPercentageDiscount(
-            "Sommarrea", 10);
-
-        assertTrue(discount.isValid());
-    }
+	    assertTrue(discount.isValid());
+	}
 	
 	@Test
 	void testMultiBuyRejectsEqualQuantities() {
