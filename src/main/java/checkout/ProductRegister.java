@@ -9,7 +9,7 @@ public class ProductRegister {
 
     public void addProduct(Gtin gtin, Product product) {
         if (items.containsKey(gtin)) {
-            throw new IllegalStateException("GTIN already in register.");
+            throw new IllegalStateException("GTIN " + gtin.getCode() + " is already in register.");
         }
 
         items.put(gtin, product);
