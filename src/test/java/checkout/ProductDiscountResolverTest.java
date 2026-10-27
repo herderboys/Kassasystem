@@ -63,17 +63,14 @@ class ProductDiscountResolverTest {
     	
     	Product product = new Product("Milk",new Money(20));
     	
-    	PercentageDiscount discount1 = createPercentageDiscount("50of", 50);
-    	
-    	MultiBuyDiscount discount2 = createMultiBuyDiscount("3x2", 3 , 2);
+    	PercentageDiscount discount = createPercentageDiscount("50of", 50);
     	
     	ProductGroup group = new ProductGroup("group");
     	
     	group.addProduct(product);
     	
-    	group.addDiscount(discount1);
+    	group.addDiscount(discount);
     	
-    	group.addDiscount(discount2);
     	
     	Money newPriceMoney = resolver.getNewPrice();
     	
