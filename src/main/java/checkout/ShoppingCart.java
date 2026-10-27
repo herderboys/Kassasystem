@@ -31,13 +31,22 @@ public class ShoppingCart {
 
     public Money getPrice(){
 
+
+
         int price = 0;
 
         for(Product p : cart.keySet()) {
             price += p.getPrice().getAmountInOre()* cart.get(p);
         }
 
-        return new Money(price);
+        Money payment = new Money(price);
+
+        if(customer.getStudentSenior()){
+            payment = payment.percentage(90);
+
+        }
+
+        return payment;
     }
 
 
