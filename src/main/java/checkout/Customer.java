@@ -6,7 +6,8 @@ public class Customer {
     private final String name;
     private final Money wallet;
     private Membership membership;
-
+    private boolean StudentSenior = false;
+    
     public Customer(String name, Money wallet) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Name cannot be blank");
@@ -29,6 +30,14 @@ public class Customer {
     public Membership getMembership() {
         return membership;
     }
+    
+    public void setStudentSenior() {
+        this.StudentSenior = !this.StudentSenior;
+    }
+    
+    public boolean getStudentSenior() {
+		return StudentSenior;
+	}
 
     public boolean hasValidMembershipOn(LocalDate date) {
         if (date == null) {
