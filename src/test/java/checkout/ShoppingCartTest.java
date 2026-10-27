@@ -149,18 +149,18 @@ public class ShoppingCartTest {
 
     }
 
-    /*@Test
-    void test(){
+    @Test
+    void studentSeniorDiscountTest(){
         Customer customer = new Customer("customer", new Money(10));
-
+        customer.setStudentSenior();
         ShoppingCart shoppingCart = new ShoppingCart(customer);
 
 
         shoppingCart.addItem(new Product("testProduct", new Money(10)));
 
-        assertEquals(9, shoppingCart.getPrice().getAmountInOre());
+        assertEquals(9, shoppingCart.getPrice().getAmountInOre(), "price is " + shoppingCart.getPrice().getAmountInOre() + ", price should be 9");
 
-    }*/
+    }
 
 
 }
