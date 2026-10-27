@@ -62,8 +62,29 @@ public class ProductGroup {
     }
     
     public void addDiscount(Discount discount) {
-       
-         discounts.add(discount);
+        if (discount == null) {
+            throw new IllegalArgumentException(
+                "Discount cannot be null"
+            );
+        }
+
+        boolean duplicateUniqueType = isUniqueDiscountType(discount)
+            && discounts.stream().anyMatch(
+                existing -> existing.getClass() == discount.getClass()
+            );
+
+        if (duplicateUniqueType) {
+            throw new IllegalArgumentException(
+                "This discount type already exists in the product group"
+            );
+        }
+
+        discounts.add(discount);
+    }
+
+    private boolean isUniqueDiscountType(Discount discount) {
+        return discount instanceof MemberDiscount
+            || discount instanceof StudentSeniorDiscount;
     }
 
     public List<Discount> getDiscounts() {

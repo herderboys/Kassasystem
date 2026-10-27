@@ -59,7 +59,7 @@ class DiscountTest {
 	
 	
 	@Test
-	void testGetNamn() {
+	void testGetName() {
 		PercentageDiscount discount = createPercentageDiscount("Discount1", 10);
         assertEquals("Discount1", discount.getName());
 	}
@@ -167,6 +167,40 @@ class DiscountTest {
 	}
 	
 	@Test
+	void testMultiBuyRejectsQuantityRequiredOfOneWhenQuantityToPayIsOne() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> createMultiBuyDiscount("1 for 1", 1, 1)
+	    );
+	}
+	
+	@Test
+	void testMultiBuyAcceptsMinimumValidQuantities() {
+	    MultiBuyDiscount discount =
+	        createMultiBuyDiscount("2 for 1", 2, 1);
+
+	    assertEquals(2, discount.getQuantityRequired());
+	    assertEquals(1, discount.getQuantityToPay());
+	}
+	
+	@Test
+	void testDiscountRejectsNullEndTime() {
+	    ZoneId zone = ZoneId.of("Europe/Stockholm");
+	    Clock clock = Clock.system(zone);
+
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> new PercentageDiscount(
+	            "Discount1",
+	            10,
+	            LocalDateTime.of(2026, 10, 23, 11, 0),
+	            null,
+	            clock
+	        )
+	    );
+	}
+	
+	@Test
 	void testDiscountRejectsEndDateBeforeStartDate() {
 	    ZoneId zone = ZoneId.of("Europe/Stockholm");
 	    Clock clock = Clock.fixed(
@@ -240,6 +274,52 @@ class DiscountTest {
 	            clock
 	        )
 	    );
+	}
+	
+	@Test
+	void testDiscountIsValidExactlyAtStartTime() {
+	    ZoneId zone = ZoneId.of("Europe/Stockholm");
+
+	    LocalDateTime startTime = LocalDateTime.of(2026, 10, 23, 12, 0);
+	    LocalDateTime endTime = LocalDateTime.of(2026, 10, 23, 13, 0);
+
+	    Clock clock = Clock.fixed(
+	        startTime.atZone(zone).toInstant(),
+	        zone
+	    );
+
+	    PercentageDiscount discount = new PercentageDiscount(
+	        "Discount1",
+	        10,
+	        startTime,
+	        endTime,
+	        clock
+	    );
+
+	    assertTrue(discount.isValid());
+	}
+	
+	@Test
+	void testDiscountIsValidExactlyAtEndTime() {
+	    ZoneId zone = ZoneId.of("Europe/Stockholm");
+
+	    LocalDateTime startTime = LocalDateTime.of(2026, 10, 23, 11, 0);
+	    LocalDateTime endTime = LocalDateTime.of(2026, 10, 23, 12, 0);
+
+	    Clock clock = Clock.fixed(
+	        endTime.atZone(zone).toInstant(),
+	        zone
+	    );
+
+	    PercentageDiscount discount = new PercentageDiscount(
+	        "Discount1",
+	        10,
+	        startTime,
+	        endTime,
+	        clock
+	    );
+
+	    assertTrue(discount.isValid());
 	}
 
 }

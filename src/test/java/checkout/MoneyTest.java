@@ -57,4 +57,28 @@ public class MoneyTest {
 
         assertEquals(first, second);
     }
+
+    @Test 
+    void percentageReturnsShareOfAmount() {
+        Money money = new Money(1000);
+        assertEquals(new Money(250), money.percentage(25));
+    }
+
+    @Test 
+    void percentageIsExactWhenResultIsWholeOre() {
+        Money money = new Money(100);
+        assertEquals(new Money(29), money.percentage(29));
+    }
+
+    @Test 
+    void percentageRoundsHalfOreUp() {
+        Money money = new Money(150);
+        assertEquals(new Money(2), money.percentage(1));
+    }
+
+    @Test 
+    void percentageRoundsLessThanHalfOreDown() {
+        Money money = new Money(149);
+        assertEquals(new Money(1), money.percentage(1));
+    }
 }
