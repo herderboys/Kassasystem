@@ -4,8 +4,12 @@ package checkout;
 import java.util.HashMap;
 
 public class ShoppingCart {
-
+    Customer customer;
     HashMap<Product, Integer> cart = new HashMap<>();
+
+    public ShoppingCart(Customer c){
+        customer = c;
+    }
 
     public void addItem(Product p){
         if (cart.containsKey(p)){
