@@ -151,8 +151,10 @@ public class ShoppingCartTest {
 
     /*@Test
     void test(){
+        Customer customer = new Customer("customer", new Money(10));
 
-        ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
+        ShoppingCart shoppingCart = new ShoppingCart(customer);
+
 
         shoppingCart.addItem(new Product("testProduct", new Money(10)));
 
