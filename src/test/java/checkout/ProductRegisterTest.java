@@ -3,6 +3,8 @@ package checkout;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.NoSuchElementException;
+
 import org.junit.jupiter.api.Test;
 
 public class ProductRegisterTest {
@@ -14,5 +16,11 @@ public class ProductRegisterTest {
         ProductRegister register = new ProductRegister();
         register.addProduct(gtin, milk);
         assertEquals(milk, register.getProduct(gtin));
+    }
+
+    @Test
+    void lookupOnGtinThatDoesntExistIsRejected() {
+        assertThrows(NoSuchElementException.class, 
+            () -> new ProductRegister().getProduct(new Gtin("4006381333931")));
     }
 }
