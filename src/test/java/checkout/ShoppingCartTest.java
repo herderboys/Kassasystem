@@ -125,7 +125,7 @@ public class ShoppingCartTest {
     }
 
     @Test
-    void test(){
+    void calculatePriceTest(){
 
         Product product = new Product("testProduct", new Money(10));
 
