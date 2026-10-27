@@ -15,7 +15,7 @@ public class ShoppingCartTest {
 
         Product product = new Product("testProduct", new Money(10));
 
-        ShoppingCart shoppingCart = new ShoppingCart();
+        ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
 
         shoppingCart.addItem(product);
 
@@ -30,7 +30,7 @@ public class ShoppingCartTest {
 
         Product product = new Product("testProduct", new Money(10));
 
-        ShoppingCart shoppingCart = new ShoppingCart();
+        ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
 
         shoppingCart.addItem(product);
 
@@ -49,7 +49,7 @@ public class ShoppingCartTest {
         Product product2 = new Product("testProduct2", new Money(10));
 
 
-        ShoppingCart shoppingCart = new ShoppingCart();
+        ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
 
         shoppingCart.addItem(product);
 
@@ -68,7 +68,7 @@ public class ShoppingCartTest {
         Product product = new Product("testProduct", new Money(10));
 
 
-        ShoppingCart shoppingCart = new ShoppingCart();
+        ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
 
         shoppingCart.addItem(product);
 
@@ -86,7 +86,7 @@ public class ShoppingCartTest {
         Product product = new Product("testProduct", new Money(10));
 
 
-        ShoppingCart shoppingCart = new ShoppingCart();
+        ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
 
         shoppingCart.addItem(product);
 
@@ -109,7 +109,7 @@ public class ShoppingCartTest {
         Product product = new Product("testProduct", new Money(10));
 
 
-        ShoppingCart shoppingCart = new ShoppingCart();
+        ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
 
         shoppingCart.addItem(product);
 
@@ -133,7 +133,7 @@ public class ShoppingCartTest {
 
 
 
-        ShoppingCart shoppingCart = new ShoppingCart();
+        ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
 
         shoppingCart.addItem(product);
 
@@ -148,6 +148,17 @@ public class ShoppingCartTest {
         assertEquals(35, price.getAmountInOre(), "price is " + price.getAmountInOre() + ", price should be 35");
 
     }
+
+    /*@Test
+    void test(){
+
+        ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
+
+        shoppingCart.addItem(new Product("testProduct", new Money(10)));
+
+        assertEquals(9, shoppingCart.getPrice().getAmountInOre());
+
+    }*/
 
 
 }
