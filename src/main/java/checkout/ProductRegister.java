@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class ProductRegister {
-    Map<Gtin, Product> items = new HashMap<>();
+    private final Map<Gtin, Product> items = new HashMap<>();
 
-    void addProduct(Gtin gtin, Product product) {
+    public void addProduct(Gtin gtin, Product product) {
         items.put(gtin, product);
     }
 
