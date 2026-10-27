@@ -124,6 +124,30 @@ public class ShoppingCartTest {
 
     }
 
+    @Test
+    void test(){
+
+        Product product = new Product("testProduct", new Money(10));
+
+        Product product1 = new Product("testProduct1", new Money(15));
+
+
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+
+        shoppingCart.addItem(product);
+
+        shoppingCart.addItem(product);
+
+        shoppingCart.addItem(product1);
+
+        Money price = shoppingCart.getPrice();
+
+
+
+        assertEquals(35, price.getAmountInOre(), "price is " + price.getAmountInOre() + ", price should be 35");
+
+    }
 
 
 }

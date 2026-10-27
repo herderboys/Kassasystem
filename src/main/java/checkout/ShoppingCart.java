@@ -26,7 +26,14 @@ public class ShoppingCart {
     }
 
     public Money getPrice(){
-        return new Money(20);
+
+        int price = 0;
+
+        for(Product p : cart.keySet()) {
+            price += p.getPrice().getAmountInOre()* cart.get(p);
+        }
+
+        return new Money(price);
     }
 
 
