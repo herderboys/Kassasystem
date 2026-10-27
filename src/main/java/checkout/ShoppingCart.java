@@ -1,11 +1,10 @@
 package checkout;
 
-
 import java.util.HashMap;
 
 public class ShoppingCart {
-    Customer customer;
-    HashMap<Product, Integer> cart = new HashMap<>();
+    private final Customer customer;
+    private final HashMap<Product, Integer> cart = new HashMap<>();
 
     public ShoppingCart(Customer c){
         customer = c;
@@ -31,15 +30,14 @@ public class ShoppingCart {
 
     public Money getPrice(){
 
-
-
+        Money payment;
         int price = 0;
 
         for(Product p : cart.keySet()) {
             price += p.getPrice().getAmountInOre()* cart.get(p);
         }
 
-        Money payment = new Money(price);
+        payment = new Money(price);
 
         if(customer.getStudentSenior()){
             payment = payment.percentage(90);
