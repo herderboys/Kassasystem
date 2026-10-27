@@ -8,6 +8,10 @@ public class ProductRegister {
     private final Map<Gtin, Product> items = new HashMap<>();
 
     public void addProduct(Gtin gtin, Product product) {
+        if (items.containsKey(gtin)) {
+            throw new IllegalStateException("GTIN already in register.");
+        }
+
         items.put(gtin, product);
     }
 
