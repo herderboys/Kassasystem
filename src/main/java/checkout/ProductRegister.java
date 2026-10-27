@@ -2,6 +2,7 @@ package checkout;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class ProductRegister {
     Map<Gtin, Product> items = new HashMap<>();
@@ -11,6 +12,12 @@ public class ProductRegister {
     }
 
     public Product getProduct(Gtin gtin) {
-        return items.get(gtin);
+        Product product = items.get(gtin);
+
+        if (product == null) {
+            throw new NoSuchElementException(
+                    "Item with GTIN " + gtin.getCode() + " does not exist.");
+        }
+        return product;
     }
 }
