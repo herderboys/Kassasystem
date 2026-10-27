@@ -77,7 +77,7 @@ class ProductDiscountResolverTest {
     	
     	Money newPriceMoney = resolver.getNewPrice();
     	
-    	assertEquals(new Money(10), newPrice);
+    	assertEquals(new Money(10), newPrice); 
     }
 }
 
