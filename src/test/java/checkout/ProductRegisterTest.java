@@ -8,8 +8,8 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Test;
 
 public class ProductRegisterTest {
-    
-    @Test 
+
+    @Test
     void registeredProductCanBeFoundByGtin() {
         Product milk = new Product("Milk", new Money(200));
         Gtin gtin = new Gtin("4006381333931");
@@ -20,7 +20,17 @@ public class ProductRegisterTest {
 
     @Test
     void lookupOnGtinThatDoesntExistIsRejected() {
-        assertThrows(NoSuchElementException.class, 
-            () -> new ProductRegister().getProduct(new Gtin("4006381333931")));
+        assertThrows(NoSuchElementException.class,
+                () -> new ProductRegister().getProduct(new Gtin("4006381333931")));
+    }
+
+    @Test 
+    void twoEqualGtinCannotBeInRegister() {
+        ProductRegister register = new ProductRegister();
+        Product milk = new Product("Milk", new Money(200));
+        Gtin gtin = new Gtin("4006381333931");
+        register.addProduct(gtin, milk);
+        assertThrows(IllegalStateException.class, 
+            () -> register.addProduct(gtin, new Product("Cream", new Money(150))));
     }
 }
