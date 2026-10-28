@@ -2,6 +2,7 @@ package checkout;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
@@ -80,5 +81,11 @@ public class MoneyTest {
     void percentageRoundsLessThanHalfOreDown() {
         Money money = new Money(149);
         assertEquals(new Money(1), money.percentage(1));
+    }
+
+    @Test 
+    void moneyIsNotEqualToNull() {
+        Money money = new Money(200);
+        assertFalse(money.equals(null));
     }
 }
