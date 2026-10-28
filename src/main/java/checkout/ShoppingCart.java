@@ -34,7 +34,7 @@ public class ShoppingCart {
         for(Product p : cart.keySet()) {
             Money price = new Money(p.getPrice().getAmountInOre()* cart.get(p));
 
-            price = p.getVAT().calculateVatFromNetPrice(price);
+            price = new Money(price.getAmountInOre() + (p.getVAT().calculateVatFromNetPrice(price)).getAmountInOre());
 
             priceList.put(p, price.getAmountInOre());
 
@@ -44,18 +44,10 @@ public class ShoppingCart {
     }
 
     public Money getPrice(){
-
+        HashMap<Product, Integer> priceList = getPriceList();
         Money price = new Money(0);
-
-        for(Product p : cart.keySet()) {
-            price = price.add(new Money(p.getPrice().getAmountInOre()* cart.get(p)));
-
-        }
-
-
-        if(customer.getStudentSenior()){
-            price = price.percentage(90);
-
+        for(Product p : priceList.keySet()){
+            price = price.add(new Money(priceList.get(p)));
         }
 
         return price;
