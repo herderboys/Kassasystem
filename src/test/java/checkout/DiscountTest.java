@@ -50,6 +50,90 @@ class DiscountTest {
 	}
 	
 	@Test
+	void testMemberDiscountHas20PercentDiscount() {
+	    MemberDiscount discount = new MemberDiscount(
+	        "Member discount",
+	        LocalDateTime.of(2026, 10, 23, 11, 0),
+	        LocalDateTime.of(2029, 10, 23, 13, 0),
+	        Clock.fixed(
+	            Instant.parse("2026-10-23T10:00:00Z"),
+	            ZoneId.of("Europe/Stockholm")
+	        )
+	    );
+
+	    assertEquals(20, discount.getDiscountPercentage());
+	}
+
+	@Test
+	void testMemberDiscountRejectsNullName() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> new MemberDiscount(
+	            null,
+	            LocalDateTime.of(2026, 10, 23, 11, 0),
+	            LocalDateTime.of(2029, 10, 23, 13, 0),
+	            Clock.systemDefaultZone()
+	        )
+	    );
+	}
+	
+	@Test
+	void testDiscountRejectsNullClock1() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> new PercentageDiscount(
+	            "Discount1",
+	            10,
+	            LocalDateTime.of(2026, 10, 23, 11, 0),
+	            LocalDateTime.of(2029, 10, 23, 13, 0),
+	            null
+	        )
+	    );
+	}
+	
+	@Test
+	void testStudentSeniorDiscountHas10PercentDiscount() {
+	    StudentSeniorDiscount discount = new StudentSeniorDiscount(
+	        "Student discount",
+	        LocalDateTime.of(2026, 10, 23, 11, 0),
+	        LocalDateTime.of(2029, 10, 23, 13, 0),
+	        Clock.fixed(
+	            Instant.parse("2026-10-23T10:00:00Z"),
+	            ZoneId.of("Europe/Stockholm")
+	        )
+	    );
+
+	    assertEquals(10, discount.getDiscountPercentage());
+	}
+
+	@Test
+	void testStudentSeniorDiscountRejectsNullName() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> new StudentSeniorDiscount(
+	            null,
+	            LocalDateTime.of(2026, 10, 23, 11, 0),
+	            LocalDateTime.of(2029, 10, 23, 13, 0),
+	            Clock.systemDefaultZone()
+	        )
+	    );
+	}
+	
+	@Test
+	void testDiscountRejectsNullClock() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> new PercentageDiscount(
+	            "Discount1",
+	            10,
+	            LocalDateTime.of(2026, 10, 23, 11, 0),
+	            LocalDateTime.of(2029, 10, 23, 13, 0),
+	            null
+	        )
+	    );
+	}
+	
+	@Test
 	void testDiscountRejectsBlankName() {
 	    assertThrows(
 	        IllegalArgumentException.class,
