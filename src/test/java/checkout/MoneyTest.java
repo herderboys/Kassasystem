@@ -2,6 +2,8 @@ package checkout;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -59,6 +61,14 @@ public class MoneyTest {
     }
 
     @Test 
+    void twoMoneysWithDifferentValuesAreNotEqual() {
+        Money first = new Money(100);
+        Money second = new Money(200);
+
+        assertNotEquals(first, second);
+    }
+
+    @Test 
     void percentageReturnsShareOfAmount() {
         Money money = new Money(1000);
         assertEquals(new Money(250), money.percentage(25));
@@ -80,5 +90,11 @@ public class MoneyTest {
     void percentageRoundsLessThanHalfOreDown() {
         Money money = new Money(149);
         assertEquals(new Money(1), money.percentage(1));
+    }
+
+    @Test 
+    void moneyIsNotEqualToNull() {
+        Money money = new Money(200);
+        assertFalse(money.equals(null));
     }
 }
