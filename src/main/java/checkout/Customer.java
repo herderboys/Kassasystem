@@ -6,7 +6,7 @@ public class Customer {
     private final String name;
     private final Money wallet;
     private Membership membership;
-    private boolean StudentSenior = false;
+    private boolean studentOrSenior = false;
     
     public Customer(String name, Money wallet) {
         if (name == null || name.isBlank()) {
@@ -32,12 +32,12 @@ public class Customer {
     }
     
     public void setStudentSenior() {
-        this.StudentSenior = !this.StudentSenior;
+        this.studentOrSenior = !this.studentOrSenior;
     }
     
     public boolean getStudentSenior() {
-		return StudentSenior;
-	}
+        return studentOrSenior;
+    }
 
     public boolean hasValidMembershipOn(LocalDate date) {
         if (date == null) {
