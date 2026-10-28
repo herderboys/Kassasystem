@@ -3,6 +3,7 @@ package checkout;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -57,6 +58,14 @@ public class MoneyTest {
         Money second = new Money(250);
 
         assertEquals(first, second);
+    }
+
+    @Test 
+    void twoMoneysWithDifferentValuesAreNotEqual() {
+        Money first = new Money(100);
+        Money second = new Money(200);
+
+        assertNotEquals(first, second);
     }
 
     @Test 
