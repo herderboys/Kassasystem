@@ -237,4 +237,122 @@ class ProductGroupTest {
 	    assertFalse(grupp.getDiscounts().contains(discount));
 	    assertEquals(0, grupp.getDiscounts().size());
 	}
+	
+	@Test
+	void testAddDiscountRejectsNull() {
+	    ProductGroup grupp = new ProductGroup("Drycker");
+
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> grupp.addDiscount(null)
+	    );
+
+	    assertTrue(grupp.getDiscounts().isEmpty());
+	}
+
+	@Test
+	void testAddMemberDiscount() {
+	    ProductGroup grupp = new ProductGroup("Drycker");
+
+	    MemberDiscount discount = new MemberDiscount(
+	        "Member discount",
+	        LocalDateTime.of(2026, 10, 23, 11, 0),
+	        LocalDateTime.of(2029, 10, 23, 13, 0),
+	        Clock.fixed(
+	            Instant.parse("2026-10-23T10:00:00Z"),
+	            ZoneId.of("Europe/Stockholm")
+	        )
+	    );
+
+	    grupp.addDiscount(discount);
+
+	    assertEquals(1, grupp.getDiscounts().size());
+	    assertSame(discount, grupp.getDiscounts().get(0));
+	}
+
+	@Test
+	void testRejectsDuplicateMemberDiscount() {
+	    ProductGroup grupp = new ProductGroup("Drycker");
+
+	    grupp.addDiscount(new MemberDiscount(
+	        "Member discount 1",
+	        LocalDateTime.of(2026, 10, 23, 11, 0),
+	        LocalDateTime.of(2029, 10, 23, 13, 0),
+	        Clock.systemUTC()
+	    ));
+
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> grupp.addDiscount(new MemberDiscount(
+	            "Member discount 2",
+	            LocalDateTime.of(2026, 10, 23, 11, 0),
+	            LocalDateTime.of(2029, 10, 23, 13, 0),
+	            Clock.systemUTC()
+	        ))
+	    );
+
+	    assertEquals(1, grupp.getDiscounts().size());
+	}
+
+	@Test
+	void testAddStudentSeniorDiscount() {
+	    ProductGroup grupp = new ProductGroup("Drycker");
+
+	    StudentSeniorDiscount discount = new StudentSeniorDiscount(
+	        "Student discount",
+	        LocalDateTime.of(2026, 10, 23, 11, 0),
+	        LocalDateTime.of(2029, 10, 23, 13, 0),
+	        Clock.systemUTC()
+	    );
+
+	    grupp.addDiscount(discount);
+
+	    assertEquals(1, grupp.getDiscounts().size());
+	    assertSame(discount, grupp.getDiscounts().get(0));
+	}
+
+	@Test
+	void testRejectsDuplicateStudentSeniorDiscount() {
+	    ProductGroup grupp = new ProductGroup("Drycker");
+
+	    grupp.addDiscount(new StudentSeniorDiscount(
+	        "Student discount 1",
+	        LocalDateTime.of(2026, 10, 23, 11, 0),
+	        LocalDateTime.of(2029, 10, 23, 13, 0),
+	        Clock.systemUTC()
+	    ));
+
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> grupp.addDiscount(new StudentSeniorDiscount(
+	            "Student discount 2",
+	            LocalDateTime.of(2026, 10, 23, 11, 0),
+	            LocalDateTime.of(2029, 10, 23, 13, 0),
+	            Clock.systemUTC()
+	        ))
+	    );
+
+	    assertEquals(1, grupp.getDiscounts().size());
+	}
+
+	@Test
+	void testAllowsMemberAndStudentSeniorDiscountTogether() {
+	    ProductGroup grupp = new ProductGroup("Drycker");
+
+	    grupp.addDiscount(new MemberDiscount(
+	        "Member discount",
+	        LocalDateTime.of(2026, 10, 23, 11, 0),
+	        LocalDateTime.of(2029, 10, 23, 13, 0),
+	        Clock.systemUTC()
+	    ));
+
+	    grupp.addDiscount(new StudentSeniorDiscount(
+	        "Student discount",
+	        LocalDateTime.of(2026, 10, 23, 11, 0),
+	        LocalDateTime.of(2029, 10, 23, 13, 0),
+	        Clock.systemUTC()
+	    ));
+
+	    assertEquals(2, grupp.getDiscounts().size());
+	}
 }
