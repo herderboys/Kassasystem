@@ -1,10 +1,17 @@
 package checkout;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
 public class VATTest {
+    @Test
+    void priceExcludingVatCannotBeNull() {
+        VAT vat = new VAT25();
+        assertThrows(IllegalArgumentException.class, () -> vat.calculateVatFromNetPrice(null));
+    }
+
     @Test
     void calculatesVatFromPriceExcludingVat() {
         VAT vat = new VAT25();
