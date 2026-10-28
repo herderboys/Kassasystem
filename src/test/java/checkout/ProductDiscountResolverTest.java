@@ -71,9 +71,9 @@ class ProductDiscountResolverTest {
     	group.addDiscount(discount);
     	
     	
-    	Money newPriceMoney = resolver.getNewPrice();
+    	Money newPriceMoney = resolver.getNewPrice(product, 1);
     	
-    	assertEquals(new Money(10), newPrice); 
+    	assertEquals(new Money(10), newPriceMoney); 
     }
 }
 
