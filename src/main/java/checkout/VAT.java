@@ -1,12 +1,9 @@
 package checkout;
 
-public class VatCategory {
+public abstract class VAT {
     private final int vatRate;
-    
-    public VatCategory(int vatRate) {
-        if (vatRate < 0) {
-            throw new IllegalArgumentException("VAT rate cannot be negative");
-        }
+
+    public VAT(int vatRate) {
         this.vatRate = vatRate;
     }
 
