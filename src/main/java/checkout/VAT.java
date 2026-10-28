@@ -12,6 +12,9 @@ public abstract class VAT {
     }
 
     public Money calculateVatFromNetPrice(Money priceExcludingVat) {
+        if (priceExcludingVat == null) {
+            throw new IllegalArgumentException("Price excluding VAT cannot be null");
+        }
         int vatInOre = priceExcludingVat.getAmountInOre() * vatRate / 100;
         return new Money(vatInOre);
     }
