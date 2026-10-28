@@ -11,8 +11,6 @@ public class ShoppingCartTest {
     @Test
     void addItemToCartTest(){
 
-
-
         Product product = new Product("testProduct", new Money(10));
 
         ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
@@ -45,14 +43,11 @@ public class ShoppingCartTest {
     void addDifferentItemToCartTest(){
 
         Product product = new Product("testProduct", new Money(10));
-
         Product product2 = new Product("testProduct2", new Money(10));
-
 
         ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
 
         shoppingCart.addItem(product);
-
         shoppingCart.addItem(product2);
 
         HashMap<Product, Integer> cart = shoppingCart.getCart();
@@ -67,11 +62,9 @@ public class ShoppingCartTest {
 
         Product product = new Product("testProduct", new Money(10));
 
-
         ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
 
         shoppingCart.addItem(product);
-
         shoppingCart.addItem(product);
 
         HashMap<Product, Integer> cart = shoppingCart.getCart();
@@ -85,21 +78,16 @@ public class ShoppingCartTest {
 
         Product product = new Product("testProduct", new Money(10));
 
-
         ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
 
         shoppingCart.addItem(product);
-
         shoppingCart.addItem(product);
 
         shoppingCart.removeItem(product);
 
         HashMap<Product, Integer> cart = shoppingCart.getCart();
 
-
         assertTrue(cart.containsValue(1));
-
-
 
     }
 
@@ -108,17 +96,12 @@ public class ShoppingCartTest {
 
         Product product = new Product("testProduct", new Money(10));
 
-
         ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
 
         shoppingCart.addItem(product);
-
         shoppingCart.addItem(product);
 
-
         Money price = shoppingCart.getPrice();
-
-
 
         assertEquals(20, price.getAmountInOre());
 
@@ -128,39 +111,32 @@ public class ShoppingCartTest {
     void calculatePriceTest(){
 
         Product product = new Product("testProduct", new Money(10));
-
         Product product1 = new Product("testProduct1", new Money(15));
-
-
 
         ShoppingCart shoppingCart = new ShoppingCart(new Customer("customer", new Money(10)));
 
         shoppingCart.addItem(product);
-
         shoppingCart.addItem(product);
-
         shoppingCart.addItem(product1);
 
         Money price = shoppingCart.getPrice();
-
-
 
         assertEquals(35, price.getAmountInOre(), "price is " + price.getAmountInOre() + ", price should be 35");
 
     }
 
-    /*@Test
-    void test(){
+    @Test
+    void studentSeniorDiscountTest(){
+
         Customer customer = new Customer("customer", new Money(10));
-
+        customer.setStudentSenior();
         ShoppingCart shoppingCart = new ShoppingCart(customer);
-
 
         shoppingCart.addItem(new Product("testProduct", new Money(10)));
 
-        assertEquals(9, shoppingCart.getPrice().getAmountInOre());
+        assertEquals(9, shoppingCart.getPrice().getAmountInOre(), "price is " + shoppingCart.getPrice().getAmountInOre() + ", price should be 9");
 
-    }*/
+    }
 
 
 }

@@ -1,11 +1,10 @@
 package checkout;
 
-
 import java.util.HashMap;
 
 public class ShoppingCart {
-    Customer customer;
-    HashMap<Product, Integer> cart = new HashMap<>();
+    private final Customer customer;
+    private final HashMap<Product, Integer> cart = new HashMap<>();
 
     public ShoppingCart(Customer c){
         customer = c;
@@ -29,15 +28,29 @@ public class ShoppingCart {
         return cart;
     }
 
-    public Money getPrice(){
-
-        int price = 0;
+    public HashMap<Product,Integer> getPriceList(){
+        HashMap<Product, Integer> priceList = new HashMap<>();
 
         for(Product p : cart.keySet()) {
-            price += p.getPrice().getAmountInOre()* cart.get(p);
+            Money price = new Money(p.getPrice().getAmountInOre()* cart.get(p));
+
+            price = new Money(price.getAmountInOre() + (p.getVAT().calculateVatFromNetPrice(price)).getAmountInOre());
+
+            priceList.put(p, price.getAmountInOre());
+
         }
 
-        return new Money(price);
+        return priceList;
+    }
+
+    public Money getPrice(){
+        HashMap<Product, Integer> priceList = getPriceList();
+        Money price = new Money(0);
+        for(Product p : priceList.keySet()){
+            price = price.add(new Money(priceList.get(p)));
+        }
+
+        return price;
     }
 
 
