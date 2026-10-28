@@ -1,5 +1,7 @@
 package checkout;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Receipt {
@@ -14,14 +16,27 @@ public class Receipt {
         totalPrice = s.getPrice().getAmountInOre();
     }
 
-    public String getReceipt(){
+    private ArrayList<String> sortProducts(){
 
-
-        String receipt = "";
+        ArrayList<String> productArray = new ArrayList<String>();
 
         for(Product p : productList.keySet()){
 
-            receipt = receipt + p.getName() + " " + productList.get(p) + " " + priceList.get(p) + "\n";
+            productArray.add(p.getName() + " " + productList.get(p) + " " + priceList.get(p));
+
+        }
+        Collections.sort(productArray);
+        return productArray;
+    }
+
+    public String getReceipt(){
+
+        ArrayList<String> productList = sortProducts();
+        String receipt = "";
+
+        for(String s : productList){
+
+            receipt = receipt + s + "\n";
          }
         receipt = receipt + "Total price: " + totalPrice;
 
