@@ -8,6 +8,23 @@ public class CustomerTest {
     private final LocalDate date = LocalDate.of(2026, 10, 23);
 
     @Test
+    void studentSeniorStatusCanBeToggled() {
+        Customer customer = new Customer("Abbe", new Money(0));
+
+        customer.setStudentSenior();
+        assertTrue(customer.getStudentSenior());
+
+        customer.setStudentSenior();
+        assertFalse(customer.getStudentSenior());
+    }
+
+    @Test
+    void customerIsNotStudentSeniorByDefault() {
+        Customer customer = new Customer("Abbe", new Money(0));
+        assertFalse(customer.getStudentSenior());
+    }
+
+    @Test
     void invalidCustomerDetailsAreRejected() {
         assertThrows(IllegalArgumentException.class, () -> new Customer(null, new Money(0)));
         assertThrows(IllegalArgumentException.class, () -> new Customer("", new Money(0)));
