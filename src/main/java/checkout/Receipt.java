@@ -12,7 +12,7 @@ public class Receipt {
 
     Receipt(ShoppingCart s){
         productList.putAll(s.getCart());
-        priceList.putAll(s.getPriceList());;
+        priceList.putAll(s.getPriceList());
         totalPrice = s.getPrice().getAmountInOre();
     }
 
