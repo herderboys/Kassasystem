@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 public class Receipt {
 
-    private HashMap<Product, Integer> productList;
-    private HashMap<Product, Integer> priceList;
-    private int totalPrice;
+    private final HashMap<Product, Integer> productList;
+    private final HashMap<Product, Integer> priceList;
+    private final int totalPrice;
 
     Receipt(ShoppingCart s){
         productList = s.getCart();
@@ -18,7 +18,7 @@ public class Receipt {
 
     private ArrayList<String> sortProducts(){
 
-        ArrayList<String> productArray = new ArrayList<String>();
+        ArrayList<String> productArray = new ArrayList<>();
 
         for(Product p : productList.keySet()){
 
