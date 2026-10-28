@@ -12,6 +12,7 @@ public abstract class VAT {
     }
 
     public Money calculateVatFromNetPrice(Money priceExcludingVat) {
-        return new Money(0);
+        int vatInOre = priceExcludingVat.getAmountInOre() * vatRate / 100;
+        return new Money(vatInOre);
     }
 }
