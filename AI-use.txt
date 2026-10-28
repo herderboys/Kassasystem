@@ -1,1 +1,7 @@
 Använde AI för att skapa filstruktur och konfigurera pom.xml
+AI att skapa tester är bra för fundementala tester enklare i form.
+när testen blir mer avanserade så upstår blind fläckar. AI kan inte se utanför Boxen.
+AI behöver mycket information för att ska simpla test.
+För kod generering För lätt kod fungerar den bra vet inte för mer avanserade prodject 
+AI för kod review?
+
