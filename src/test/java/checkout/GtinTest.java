@@ -1,6 +1,7 @@
 package checkout;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -60,5 +61,11 @@ public class GtinTest {
         Gtin gtin1 = new Gtin("4006381333931");
         Gtin gtin2 = new Gtin("400 6381-333931");
         assertEquals(gtin1, gtin2);
+    }
+
+    @Test
+    void gtinIsNotEqualToNull() {
+        Gtin gtin = new Gtin("4006381333931");
+        assertFalse(gtin.equals(null));
     }
 }
