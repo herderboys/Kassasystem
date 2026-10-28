@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-class ReceiptTest {
+class ClaudeReceiptTest {
 
     /**
      * Unit tests: Receipt in isolation, with ShoppingCart mocked.
