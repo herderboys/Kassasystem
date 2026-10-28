@@ -6,6 +6,12 @@ import org.junit.jupiter.api.Test;
 
 public class VATTest {
     @Test
+    void vat0Returns0Percent() {
+        VAT vat = new VAT0();
+        assertEquals(0, vat.getVatRate());
+    }
+
+    @Test
     void vat6Returns6Percent() {
         VAT vat = new VAT6();
         assertEquals(6, vat.getVatRate());
