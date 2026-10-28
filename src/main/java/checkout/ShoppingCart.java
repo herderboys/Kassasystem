@@ -28,23 +28,37 @@ public class ShoppingCart {
         return cart;
     }
 
-    public Money getPrice(){
-
-        Money payment;
-        int price = 0;
+    public HashMap<Product,Integer> getPriceList(){
+        HashMap<Product, Integer> priceList = new HashMap<>();
 
         for(Product p : cart.keySet()) {
-            price += p.getPrice().getAmountInOre()* cart.get(p);
+            Money price = new Money(p.getPrice().getAmountInOre()* cart.get(p));
+
+            price = p.getVAT().calculateVatFromNetPrice(price);
+
+            priceList.put(p, price.getAmountInOre());
+
         }
 
-        payment = new Money(price);
+        return priceList;
+    }
+
+    public Money getPrice(){
+
+        Money price = new Money(0);
+
+        for(Product p : cart.keySet()) {
+            price = price.add(new Money(p.getPrice().getAmountInOre()* cart.get(p)));
+
+        }
+
 
         if(customer.getStudentSenior()){
-            payment = payment.percentage(90);
+            price = price.percentage(90);
 
         }
 
-        return payment;
+        return price;
     }
 
 
