@@ -10,4 +10,8 @@ public abstract class VAT {
     public int getVatRate() {
         return vatRate;
     }
+
+    public Money calculateVatFromNetPrice(Money priceExcludingVat) {
+        return new Money(0);
+    }
 }
