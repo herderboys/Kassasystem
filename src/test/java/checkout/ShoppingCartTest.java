@@ -103,7 +103,7 @@ public class ShoppingCartTest {
 
         Money price = shoppingCart.getPrice();
 
-        assertEquals(20, price.getAmountInOre());
+        assertEquals(25, price.getAmountInOre());
 
     }
 
@@ -121,7 +121,7 @@ public class ShoppingCartTest {
 
         Money price = shoppingCart.getPrice();
 
-        assertEquals(35, price.getAmountInOre(), "price is " + price.getAmountInOre() + ", price should be 35");
+        assertEquals(43, price.getAmountInOre(), "price is " + price.getAmountInOre() + ", price should be 43");
 
     }
 
@@ -134,7 +134,7 @@ public class ShoppingCartTest {
 
         shoppingCart.addItem(new Product("testProduct", new Money(10)));
 
-        assertEquals(9, shoppingCart.getPrice().getAmountInOre(), "price is " + shoppingCart.getPrice().getAmountInOre() + ", price should be 9");
+        assertEquals(12, shoppingCart.getPrice().getAmountInOre(), "price is " + shoppingCart.getPrice().getAmountInOre() + ", price should be 12");
 
     }
 
