@@ -16,6 +16,8 @@ public class ProductDiscountResolver {
 
 		if (group == null){    
 			//quantity * return product.getPrice();
+			Money price = product.getPrice().percentage(quantity * 100);
+			return price;
 		}
 		
 		List<Discount> discounts = group.getDiscounts();
@@ -28,10 +30,10 @@ public class ProductDiscountResolver {
 	        if (discount instanceof PercentageDiscount) {
 	            percentageDiscounts.add(discount);    
 	        }
-	        
 		}
-		//
 		
+		
+		// check which discount should be applied
 		for (percentageDiscounts discount : discounts) {
 			 
 			 
