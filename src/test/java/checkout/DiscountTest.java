@@ -419,9 +419,39 @@ class DiscountTest {
 		);
 
 
-		FixedDiscount fixedDiscount = new FixedDiscount("disc", new Money(100), startTime, endTime, clock);
+		FixedDiscount fixedDiscount = new FixedDiscount(
+				"disc",
+				new Money(100),
+				startTime,
+				endTime,
+				clock
+		);
 
 		assertEquals(100, fixedDiscount.getDiscountAmount().getAmountInOre());
+	}
+
+	@Test
+	void testFixedDiscountRejectsNullDiscountAmount(){
+		ZoneId zone = ZoneId.of("Europe/Stockholm");
+
+		LocalDateTime startTime = LocalDateTime.of(2026, 10, 23, 12, 0);
+		LocalDateTime endTime = LocalDateTime.of(2026, 10, 23, 13, 0);
+
+		Clock clock = Clock.fixed(
+				startTime.atZone(zone).toInstant(),
+				zone
+		);
+
+		assertThrows(IllegalArgumentException.class,
+				() -> new FixedDiscount(
+				"disc",
+				null,
+				startTime,
+				endTime,
+				clock
+				)
+		);
+
 	}
 
 }
