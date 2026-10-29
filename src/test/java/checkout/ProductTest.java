@@ -25,8 +25,18 @@ public class ProductTest {
     }
 
     @Test
+    void productWithVatNameNotNull() {
+        assertThrows(IllegalArgumentException.class, () -> new Product(null, new Money(500), new VAT25()));
+    }
+
+    @Test
     void productNameNotEmpty() {
         assertThrows(IllegalArgumentException.class, () -> new Product("", new Money(500)));
+    }
+
+    @Test
+    void productWithVatNameNotEmpty() {
+        assertThrows(IllegalArgumentException.class, () -> new Product("", new Money(500), new VAT25()));
     }
 
     @Test 
