@@ -15,6 +15,12 @@ public abstract class VAT {
         if (priceExcludingVat == null) {
             throw new IllegalArgumentException("Price excluding VAT cannot be null");
         }
-        return priceExcludingVat.percentage(vatRate);
+        
+        // Previous: truncates fractions of an ore.
+        int vatInOre = priceExcludingVat.getAmountInOre() * vatRate / 100;
+        return new Money(vatInOre);
+        
+        // New: rounds to the nearest ore.
+        //return priceExcludingVat.percentage(vatRate);
     }
 }
