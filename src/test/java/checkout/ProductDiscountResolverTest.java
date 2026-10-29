@@ -90,6 +90,241 @@ class ProductDiscountResolverTest {
 	}
 	
 	@Test
+	void studentCustomerWithoutMemberDiscountGetsStudentDiscount() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+	    Customer customer = createStudentCustomer();
+
+	    group.addProduct(product);
+	    group.addDiscount(createStudentSeniorDiscount("Student"));
+
+	    assertEquals(
+	        new Money(90),
+	        resolver.getNewPrice(product, 1, customer)
+	    );
+	}
+
+	@Test
+	void memberWithoutMembershipDoesNotGetMemberDiscount() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+	    Customer customer = createRegularCustomer();
+
+	    group.addProduct(product);
+	    group.addDiscount(createMemberDiscount("Member"));
+
+	    assertEquals(
+	        new Money(100),
+	        resolver.getNewPrice(product, 1, customer)
+	    );
+	}
+	
+	@Test
+	void memberDiscountAppliesWithoutCheckingCustomerStatus() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+
+	    group.addProduct(product);
+	    group.addDiscount(createMemberDiscount("Member"));
+
+	    // Den gamla metoden kontrollerar inte kundens medlemskap.
+	    assertEquals(
+	        new Money(80),
+	        resolver.getNewPrice(product, 1)
+	    );
+	}
+	
+	@Test
+	void studentDiscountIsIgnoredWhenCustomerIsNotStudent() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+
+	    group.addProduct(product);
+	    group.addDiscount(createStudentSeniorDiscount("Student"));
+
+	    Customer customer = createRegularCustomer();
+
+	    assertEquals(
+	        new Money(100),
+	        resolver.getNewPrice(product, 1, customer)
+	    );
+	}
+	
+	@Test
+	void studentDiscountIsSkippedWhenCustomerIsValidMember() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+	    Customer customer = createMemberCustomer();
+
+	    group.addProduct(product);
+	    group.addDiscount(createStudentSeniorDiscount("Student"));
+
+	    assertEquals(
+	        new Money(100),
+	        resolver.getNewPrice(product, 1, customer)
+	    );
+	}
+
+	@Test
+	void studentDiscountIsSkippedWhenCustomerIsNotStudent() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+	    Customer customer = createRegularCustomer();
+
+	    group.addProduct(product);
+	    group.addDiscount(createStudentSeniorDiscount("Student"));
+
+	    assertEquals(
+	        new Money(100),
+	        resolver.getNewPrice(product, 1, customer)
+	    );
+	}
+
+	@Test
+	void studentDiscountAppliesWhenCustomerIsStudentWithoutMembership() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+	    Customer customer = createStudentCustomer();
+
+	    group.addProduct(product);
+	    group.addDiscount(createStudentSeniorDiscount("Student"));
+
+	    assertEquals(
+	        new Money(90),
+	        resolver.getNewPrice(product, 1, customer)
+	    );
+	}
+	
+	@Test
+	void studentDiscountAppliesWhenUsingLegacyMethod() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+
+	    group.addProduct(product);
+	    group.addDiscount(createStudentSeniorDiscount("Student"));
+
+	    assertEquals(
+	        new Money(90),
+	        resolver.getNewPrice(product, 1)
+	    );
+	}
+	
+	@Test
+	void validMemberWhoIsAlsoStudentGetsOnlyMemberDiscount() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+
+	    Customer customer = createMemberCustomer();
+	    customer.setStudentSenior(true);
+
+	    group.addProduct(product);
+	    group.addDiscount(createMemberDiscount("Member"));
+	    group.addDiscount(createStudentSeniorDiscount("Student"));
+
+	    assertEquals(
+	        new Money(80),
+	        resolver.getNewPrice(product, 1, customer)
+	    );
+	}
+
+	@Test
+	void studentDiscountAppliesWhenCustomerIsStudentAndHasNoMemberDiscount() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+	    Customer customer = createStudentCustomer();
+	
+	    group.addProduct(product);
+	    group.addDiscount(createStudentSeniorDiscount("Student"));
+	
+	    assertEquals(
+	        new Money(90),
+	        resolver.getNewPrice(product, 1, customer)
+	    );
+	}
+	
+	@Test
+	void studentDiscountIsNotAppliedToRegularCustomer() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+	    Customer customer = createRegularCustomer();
+
+	    group.addProduct(product);
+	    group.addDiscount(createStudentSeniorDiscount("Student"));
+
+	    // Kunden har varken medlemskap eller student-/seniorstatus.
+	    assertEquals(
+	        new Money(100),
+	        resolver.getNewPrice(product, 1, customer)
+	    );
+	}
+	
+	@Test
+	void studentDiscountAppliesWithoutCheckingCustomerStatus() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+
+	    group.addProduct(product);
+	    group.addDiscount(createStudentSeniorDiscount("Student"));
+
+	    // Den gamla metoden kontrollerar inte kundens studentstatus.
+	    assertEquals(
+	        new Money(90),
+	        resolver.getNewPrice(product, 1)
+	    );
+	}
+	
+	@Test
+	void otherDiscountTypeShouldNotBeAddedAsPercentageDiscount() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+
+	    Discount otherDiscount = new Discount(
+	        "Other discount",
+	        START,
+	        END,
+	        CLOCK
+	    ) {};
+
+	    group.addProduct(product);
+	    group.addDiscount(otherDiscount);
+
+	    assertEquals(
+	        new Money(100),
+	        resolver.getNewPrice(product, 1, createRegularCustomer())
+	    );
+	}
+	
+	@Test
+	void fixedDiscountShouldSkipPercentageDiscountBranch() {
+	    ProductDiscountResolver resolver = new ProductDiscountResolver();
+	    Product product = new Product("Milk", new Money(100));
+	    ProductGroup group = new ProductGroup("group");
+
+	    group.addProduct(product);
+	    group.addDiscount(
+	        createFixedDiscount("10 off", new Money(10))
+	    );
+
+	    assertEquals(
+	        new Money(90),
+	        resolver.getNewPrice(product, 1, createRegularCustomer())
+	    );
+	}
+	
+	@Test
 	void regularPercentageDiscountShouldReachPercentageDiscountBranch() {
 	    ProductDiscountResolver resolver = new ProductDiscountResolver();
 	    Product product = new Product("Milk", new Money(100));
