@@ -454,6 +454,28 @@ class DiscountTest {
 
 	}
 
+	@Test
+	void testFixedDiscountRejectsZeroDiscountAmount() {
+		ZoneId zone = ZoneId.of("Europe/Stockholm");
+
+		LocalDateTime startTime = LocalDateTime.of(2026, 10, 23, 12, 0);
+		LocalDateTime endTime = LocalDateTime.of(2026, 10, 23, 13, 0);
+
+		Clock clock = Clock.fixed(
+				startTime.atZone(zone).toInstant(),
+				zone
+		);
+
+		assertThrows(IllegalArgumentException.class,
+				() -> new FixedDiscount(
+						"disc",
+						new Money(0),
+						startTime,
+						endTime,
+						clock
+				)
+		);
+	}
 }
 	
 	
