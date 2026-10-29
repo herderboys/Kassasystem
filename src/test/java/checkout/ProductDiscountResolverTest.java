@@ -85,7 +85,7 @@ class ProductDiscountResolverTest {
 	}
 	
     @Test
-    void testMultiBuyDiscountReturn() {
+    void percentageDiscountShouldReducePrice() {
     	
     	ProductDiscountResolver resolver = new ProductDiscountResolver();
     	
@@ -342,6 +342,63 @@ class ProductDiscountResolverTest {
 
         // 100 - 10 = 90; 50 % rabatt på 90 = 45.
         assertEquals(new Money(45), price);
+    }
+    
+    @Test
+    void multipleFixedDiscountsShouldBeAppliedInSequence() {
+        ProductDiscountResolver resolver = new ProductDiscountResolver();
+        Product product = new Product("Milk", new Money(100));
+        ProductGroup group = new ProductGroup("group");
+
+        group.addProduct(product);
+        group.addDiscount(createFixedDiscount("10 off", new Money(10)));
+        group.addDiscount(createFixedDiscount("20 off", new Money(20)));
+
+        assertEquals(new Money(70), resolver.getNewPrice(product, 1));
+    }
+
+    @Test
+    void multiBuyDiscountShouldNotApplyBelowRequiredQuantity() {
+        ProductDiscountResolver resolver = new ProductDiscountResolver();
+        Product product = new Product("Milk", new Money(20));
+        ProductGroup group = new ProductGroup("group");
+
+        group.addProduct(product);
+        group.addDiscount(createMultiBuyDiscount("3 for 2", 3, 2));
+
+        assertEquals(new Money(40), resolver.getNewPrice(product, 2));
+    }
+
+    @Test
+    void equalMultiBuySavingsShouldKeepFirstDiscount() {
+        ProductDiscountResolver resolver = new ProductDiscountResolver();
+        Product product = new Product("Milk", new Money(20));
+        ProductGroup group = new ProductGroup("group");
+
+        group.addProduct(product);
+
+        // Båda ger en besparing på en vara per erbjudande.
+        group.addDiscount(createMultiBuyDiscount("3 for 2", 3, 2));
+        group.addDiscount(createMultiBuyDiscount("4 for 3", 4, 3));
+
+        // För fyra varor väljs det första erbjudandet:
+        // 3 för 2 + 1 till ordinarie pris = 60.
+        assertEquals(new Money(60), resolver.getNewPrice(product, 4));
+    }
+
+    @Test
+    void memberDiscountShouldCombineWithOtherPercentageDiscount() {
+        ProductDiscountResolver resolver = new ProductDiscountResolver();
+        Product product = new Product("Milk", new Money(100));
+        ProductGroup group = new ProductGroup("group");
+
+        group.addProduct(product);
+        group.addDiscount(createMemberDiscount("Member"));
+        group.addDiscount(createPercentageDiscount("Coupon", 10));
+
+        // Medlemsrabatt: 100 -> 80.
+        // Kupong: 80 -> 72.
+        assertEquals(new Money(72), resolver.getNewPrice(product, 1));
     }
 }
 

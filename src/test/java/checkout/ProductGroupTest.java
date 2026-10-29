@@ -355,4 +355,87 @@ class ProductGroupTest {
 
 	    assertEquals(2, grupp.getDiscounts().size());
 	}
+	
+	@Test
+	void testRemoveProductRejectsNull() {
+	    ProductGroup group = new ProductGroup("Drycker");
+
+	    assertFalse(group.removeProduct(null));
+	    assertTrue(group.getProducts().isEmpty());
+	}
+
+	@Test
+	void testRemoveDiscountReturnsTrueWhenRemoved() {
+	    ProductGroup group = new ProductGroup("Drycker");
+	    PercentageDiscount discount =
+	        createPercentageDiscount("Discount1", 10);
+
+	    group.addDiscount(discount);
+
+	    boolean removed = group.removeDiscount(discount);
+
+	    assertTrue(removed);
+	    assertFalse(group.getDiscounts().contains(discount));
+	}
+
+	@Test
+	void testRemoveDiscountReturnsFalseWhenNotFound() {
+	    ProductGroup group = new ProductGroup("Drycker");
+	    PercentageDiscount discount =
+	        createPercentageDiscount("Discount1", 10);
+
+	    boolean removed = group.removeDiscount(discount);
+
+	    assertFalse(removed);
+	    assertTrue(group.getDiscounts().isEmpty());
+	}
+
+	@Test
+	void testRemoveDiscountRejectsNull() {
+	    ProductGroup group = new ProductGroup("Drycker");
+
+	    assertFalse(group.removeDiscount(null));
+	    assertTrue(group.getDiscounts().isEmpty());
+	}
+
+	@Test
+	void testAddingSameProductTwiceKeepsProductGroup() {
+	    ProductGroup group = new ProductGroup("Drycker");
+	    Product product = new Product("Läsk", new Money(1000));
+
+	    group.addProduct(product);
+	    group.addProduct(product);
+
+	    assertEquals(1, group.getProducts().size());
+	    assertSame(group, product.getProductGroup());
+	}
+
+	@Test
+	void testRemovingProductFromWrongGroupDoesNotChangeOriginalGroup() {
+	    ProductGroup group1 = new ProductGroup("Drycker");
+	    ProductGroup group2 = new ProductGroup("Mat");
+	    Product product = new Product("Läsk", new Money(1000));
+
+	    group1.addProduct(product);
+
+	    boolean removed = group2.removeProduct(product);
+
+	    assertFalse(removed);
+	    assertEquals(1, group1.getProducts().size());
+	    assertTrue(group2.getProducts().isEmpty());
+	    assertSame(group1, product.getProductGroup());
+	}
+
+	@Test
+	void testRemovingDiscountTwiceReturnsFalseSecondTime() {
+	    ProductGroup group = new ProductGroup("Drycker");
+	    PercentageDiscount discount =
+	        createPercentageDiscount("Discount1", 10);
+
+	    group.addDiscount(discount);
+
+	    assertTrue(group.removeDiscount(discount));
+	    assertFalse(group.removeDiscount(discount));
+	    assertTrue(group.getDiscounts().isEmpty());
+	}
 }

@@ -33,12 +33,16 @@ public class ProductGroup {
                 "Product cannot be null"
             );
         }
+
+        // En produkt får bara tillhöra en produktgrupp.
         if (product.getProductGroup() != null
                 && product.getProductGroup() != this) {
             throw new IllegalArgumentException(
-                "Product already belongs to another group");
+                "Product already belongs to another group"
+            );
         }
 
+        // Undvik att lägga till samma produkt flera gånger.
         if (products.contains(product)) {
             return;
         }
@@ -48,19 +52,23 @@ public class ProductGroup {
     }
 
     public boolean removeProduct(Product product) {
-        if (!products.remove(product)) {
+        if (product == null || !products.remove(product)) {
             return false;
         }
 
+        // Synkronisera produktens referens med gruppens lista.
         product.setProductGroup(null);
         return true;
     }
 
-    public void removeDiscount(Discount discount) {
-       
-        discounts.remove(discount);
+    public boolean removeDiscount(Discount discount) {
+        if (discount == null) {
+            return false;
+        }
+
+        return discounts.remove(discount);
     }
-    
+
     public void addDiscount(Discount discount) {
         if (discount == null) {
             throw new IllegalArgumentException(
@@ -68,6 +76,8 @@ public class ProductGroup {
             );
         }
 
+        // Medlems- och student-/seniorrabatter får bara
+        // förekomma en gång per produktgrupp.
         boolean duplicateUniqueType = isUniqueDiscountType(discount)
             && discounts.stream().anyMatch(
                 existing -> existing.getClass() == discount.getClass()
