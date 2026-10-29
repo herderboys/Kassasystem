@@ -118,13 +118,8 @@ public class ProductDiscountResolver {
             unitPrice = applyPercentageDiscount(unitPrice, student);
         }
 
-        // Övriga procentuella rabatter, exempelvis kuponger.
-        for (PercentageDiscount discount : percentageDiscounts) {
-            if (discount instanceof MemberDiscount
-                    || discount instanceof StudentSeniorDiscount) {
-                continue;
-            }
-
+        
+        for (PercentageDiscount discount : percentageDiscounts) {        
             unitPrice = applyPercentageDiscount(unitPrice, discount);
         }
 

@@ -44,7 +44,58 @@ public class ShoppingCartTest {
 	    );
 	}
 	
+	@Test
+	void removeNullProductShouldDoNothing() {
+	    Customer customer = new Customer("Test", new Money(1000));
+	    ShoppingCart cart = new ShoppingCart(customer);
 
+	    assertDoesNotThrow(() -> cart.removeItem(null));
+	    assertTrue(cart.getCart().isEmpty());
+	}
+
+	@Test
+	void removeProductNotInCartShouldDoNothing() {
+	    Customer customer = new Customer("Test", new Money(1000));
+	    ShoppingCart cart = new ShoppingCart(customer);
+	    Product product = new Product("Milk", new Money(200));
+
+	    assertDoesNotThrow(() -> cart.removeItem(product));
+	    assertTrue(cart.getCart().isEmpty());
+	}
+
+	@Test
+	void removeExistingProductShouldRemoveIt() {
+	    Customer customer = new Customer("Test", new Money(1000));
+	    ShoppingCart cart = new ShoppingCart(customer);
+	    Product product = new Product("Milk", new Money(200));
+
+	    cart.addItem(product);
+	    cart.removeItem(product);
+
+	    assertFalse(cart.getCart().containsKey(product));
+	}
+	
+	@Test
+	void constructorShouldRejectNullCustomer() {
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> new ShoppingCart(null)
+	    );
+	}
+	
+	@Test
+	void addItemShouldRejectNullProduct() {
+	    Customer customer = new Customer("Test", new Money(1000));
+	    ShoppingCart cart = new ShoppingCart(customer);
+
+	    assertThrows(
+	        IllegalArgumentException.class,
+	        () -> cart.addItem(null)
+	    );
+
+	    assertTrue(cart.getCart().isEmpty());
+	}
+	
     @Test
     void addItemToCartTest(){
 
