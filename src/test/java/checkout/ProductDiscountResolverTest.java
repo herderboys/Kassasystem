@@ -1,409 +1,370 @@
 package checkout;
 
+
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import org.junit.jupiter.api.Test;
+
 class ProductDiscountResolverTest {
 
+	private static final ZoneId ZONE = ZoneId.of("Europe/Stockholm");
+
+	private static final Clock CLOCK = Clock.fixed(Instant.parse("2026-10-23T10:00:00Z"), ZONE);
+
+	private static final LocalDateTime START = LocalDateTime.of(2026, 10, 23, 11, 0);
+
+	private static final LocalDateTime END = LocalDateTime.of(2029, 10, 23, 13, 0);
+
+	// Hjälpmetoder för rabatter
+
 	private PercentageDiscount createPercentageDiscount(String name, int discountNumber) {
-		
-	    ZoneId zone = ZoneId.of("Europe/Stockholm");
 
-	    Clock clock = Clock.fixed(Instant.parse("2026-10-23T10:00:00Z"),zone);
-
-	    return new PercentageDiscount(
-	        name,
-	        discountNumber,
-	        LocalDateTime.of(2026, 10, 23, 11, 0),
-	        LocalDateTime.of(2029, 10, 23, 13, 0),
-	        clock
-	    );
+		return new PercentageDiscount(name, discountNumber, START, END, CLOCK);
 	}
-	
-	private MultiBuyDiscount createMultiBuyDiscount(String name, int quantityRequired,int quantityToPay) {
-	    ZoneId zone = ZoneId.of("Europe/Stockholm");
 
-	    Clock clock = Clock.fixed(Instant.parse("2026-10-23T10:00:00Z"),zone);
+	private MultiBuyDiscount createMultiBuyDiscount(String name, int quantityRequired, int quantityToPay) {
 
-	    return new MultiBuyDiscount(
-	        name,
-	        quantityRequired,
-	        quantityToPay,
-	        LocalDateTime.of(2026, 10, 23, 11, 0),
-	        LocalDateTime.of(2029, 10, 23, 13, 0),
-	        clock
-	    );
+		return new MultiBuyDiscount(name, quantityRequired, quantityToPay, START, END, CLOCK);
 	}
-	
+
 	private FixedDiscount createFixedDiscount(String name, Money discountAmount) {
-	    ZoneId zone = ZoneId.of("Europe/Stockholm");
 
-	    Clock clock = Clock.fixed(Instant.parse("2026-10-23T10:00:00Z"),zone);
-
-	    return new FixedDiscount(
-	        name,
-	        discountAmount,
-	        LocalDateTime.of(2026, 10, 23, 11, 0),
-	        LocalDateTime.of(2029, 10, 23, 13, 0),
-	        clock
-	    );
+		return new FixedDiscount(name, discountAmount, START, END, CLOCK);
 	}
-	
-	private MemberDiscount createMemberDiscount(String name) {
-	    ZoneId zone = ZoneId.of("Europe/Stockholm");
-	    Clock clock = Clock.fixed(
-	        Instant.parse("2026-10-23T10:00:00Z"),
-	        zone
-	    );
 
-	    return new MemberDiscount(
-	        name,
-	        LocalDateTime.of(2026, 10, 23, 11, 0),
-	        LocalDateTime.of(2029, 10, 23, 13, 0),
-	        clock
-	    );
+	private MemberDiscount createMemberDiscount(String name) {
+		return new MemberDiscount(name, START, END, CLOCK);
 	}
 
 	private StudentSeniorDiscount createStudentSeniorDiscount(String name) {
-	    ZoneId zone = ZoneId.of("Europe/Stockholm");
-	    Clock clock = Clock.fixed(
-	        Instant.parse("2026-10-23T10:00:00Z"),
-	        zone
-	    );
 
-	    return new StudentSeniorDiscount(
-	        name,
-	        LocalDateTime.of(2026, 10, 23, 11, 0),
-	        LocalDateTime.of(2029, 10, 23, 13, 0),
-	        clock
-	    );
+		return new StudentSeniorDiscount(name, START, END, CLOCK);
 	}
-	
-    @Test
-    void percentageDiscountShouldReducePrice() {
-    	
-    	ProductDiscountResolver resolver = new ProductDiscountResolver();
-    	
-    	Product product = new Product("Milk",new Money(20));
-    	
-    	PercentageDiscount discount = createPercentageDiscount("50of", 50);
-    	
-    	ProductGroup group = new ProductGroup("group");
-    	
-    	group.addProduct(product);
-    	
-    	group.addDiscount(discount);
-    	
-    	
-    	Money newPriceMoney = resolver.getNewPrice(product, 1);
-    	
-    	assertEquals(new Money(10), newPriceMoney); 
-    }
-    
-    @Test
-    void zeroQuantityShouldReturnZero() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(20));
 
-        assertEquals(new Money(0), resolver.getNewPrice(product, 0));
-    }
+	// Hjälpmetoder för kunder
 
-    @Test
-    void negativeQuantityShouldThrowException() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(20));
+	private Customer createRegularCustomer() {
+		return new Customer("Regular", new Money(10000));
+	}
 
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> resolver.getNewPrice(product, -1)
-        );
-    }
+	private Customer createMemberCustomer() {
+		Customer customer = createRegularCustomer();
 
-    @Test
-    void productWithoutGroupShouldHaveNormalPrice() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(20));
+		customer.setMembership(new Membership(LocalDate.of(2029, 12, 31)));
 
-        assertEquals(new Money(60), resolver.getNewPrice(product, 3));
-    }
+		return customer;
+	}
 
-    @Test
-    void fixedDiscountShouldReducePrice() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(20));
-        ProductGroup group = new ProductGroup("group");
+	private Customer createStudentCustomer() {
+		Customer customer = createRegularCustomer();
+		customer.setStudentSenior(true);
 
-        group.addProduct(product);
-        group.addDiscount(
-            createFixedDiscount("5 off", new Money(5))
-        );
+		return customer;
+	}
 
-        assertEquals(new Money(15), resolver.getNewPrice(product, 1));
-    }
+	// 1. Grundläggande prisberäkning
 
-    @Test
-    void fixedDiscountShouldNotMakePriceNegative() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(20));
-        ProductGroup group = new ProductGroup("group");
+	@Test
+	void percentageDiscountShouldReducePrice() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
+		ProductGroup group = new ProductGroup("group");
 
-        group.addProduct(product);
-        group.addDiscount(
-            createFixedDiscount("30 off", new Money(30))
-        );
+		group.addProduct(product);
+		group.addDiscount(createPercentageDiscount("50 off", 50));
 
-        assertEquals(new Money(0), resolver.getNewPrice(product, 1));
-    }
+		assertEquals(new Money(10), resolver.getNewPrice(product, 1, createRegularCustomer()));
+	}
 
-    @Test
-    void percentageDiscountShouldApplyToMultipleItems() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(20));
-        ProductGroup group = new ProductGroup("group");
+	@Test
+	void zeroQuantityShouldReturnZero() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
 
-        group.addProduct(product);
-        group.addDiscount(createPercentageDiscount("50 off", 50));
+		assertEquals(new Money(0), resolver.getNewPrice(product, 0, createRegularCustomer()));
+	}
 
-        assertEquals(new Money(30), resolver.getNewPrice(product, 3));
-    }
+	@Test
+	void negativeQuantityShouldThrowException() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
 
-    @Test
-    void multiBuyDiscountShouldChargeForPayableQuantity() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(20));
-        ProductGroup group = new ProductGroup("group");
+		assertThrows(IllegalArgumentException.class, () -> resolver.getNewPrice(product, -1, createRegularCustomer()));
+	}
 
-        group.addProduct(product);
-        group.addDiscount(
-            createMultiBuyDiscount("3 for 2", 3, 2)
-        );
+	@Test
+	void productWithoutGroupShouldHaveNormalPrice() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
 
-        assertEquals(new Money(40), resolver.getNewPrice(product, 3));
-    }
+		assertEquals(new Money(60), resolver.getNewPrice(product, 3, createRegularCustomer()));
+	}
 
-    @Test
-    void multiBuyDiscountShouldChargeFullPriceForRemainder() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(20));
-        ProductGroup group = new ProductGroup("group");
+	// 2. Fasta rabatter
 
-        group.addProduct(product);
-        group.addDiscount(
-            createMultiBuyDiscount("3 for 2", 3, 2)
-        );
+	@Test
+	void fixedDiscountShouldReducePrice() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
+		ProductGroup group = new ProductGroup("group");
 
-        // Tre varor kostar 40, den fjärde kostar ytterligare 20.
-        assertEquals(new Money(60), resolver.getNewPrice(product, 4));
-    }
+		group.addProduct(product);
+		group.addDiscount(createFixedDiscount("5 off", new Money(5)));
 
-    @Test
-    void multiBuyDiscountShouldTakePriorityOverPercentageDiscount() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(20));
-        ProductGroup group = new ProductGroup("group");
+		assertEquals(new Money(15), resolver.getNewPrice(product, 1, createRegularCustomer()));
+	}
 
-        group.addProduct(product);
-        group.addDiscount(
-            createMultiBuyDiscount("3 for 2", 3, 2)
-        );
-        group.addDiscount(createPercentageDiscount("50 off", 50));
+	@Test
+	void fixedDiscountShouldNotMakePriceNegative() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
+		ProductGroup group = new ProductGroup("group");
 
-        // Multibuy ger 40; procentrabatten ska inte kombineras med den.
-        assertEquals(new Money(40), resolver.getNewPrice(product, 3));
-    }
-    
-    @Test
-    void memberDiscountShouldTakePriorityOverStudentSeniorDiscount() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(100));
-        ProductGroup group = new ProductGroup("group");
+		group.addProduct(product);
+		group.addDiscount(createFixedDiscount("30 off", new Money(30)));
 
-        group.addProduct(product);
-        group.addDiscount(createMemberDiscount("Member"));
-        group.addDiscount(createStudentSeniorDiscount("Student"));
+		assertEquals(new Money(0), resolver.getNewPrice(product, 1, createRegularCustomer()));
+	}
 
-        Money price = resolver.getNewPrice(product, 1);
+	@Test
+	void multipleFixedDiscountsShouldBeAppliedInSequence() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(100));
+		ProductGroup group = new ProductGroup("group");
 
-        assertEquals(new Money(80), price);
-    }
-    
-    @Test
-    void studentSeniorDiscountShouldReducePriceByTenPercent() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(100));
-        ProductGroup group = new ProductGroup("group");
+		group.addProduct(product);
+		group.addDiscount(createFixedDiscount("10 off", new Money(10)));
+		group.addDiscount(createFixedDiscount("20 off", new Money(20)));
 
-        group.addProduct(product);
-        group.addDiscount(createStudentSeniorDiscount("Student"));
+		assertEquals(new Money(70), resolver.getNewPrice(product, 1, createRegularCustomer()));
+	}
 
-        Money price = resolver.getNewPrice(product, 1);
+	// 3. Procentrabatter
 
-        assertEquals(new Money(90), price);
-    }
-    
-    @Test
-    void invalidPercentageDiscountShouldBeIgnored() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(100));
-        ProductGroup group = new ProductGroup("group");
+	@Test
+	void percentageDiscountShouldApplyToMultipleItems() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
+		ProductGroup group = new ProductGroup("group");
 
-        ZoneId zone = ZoneId.of("Europe/Stockholm");
-        Clock clock = Clock.fixed(
-            Instant.parse("2026-10-23T10:00:00Z"),
-            zone
-        );
+		group.addProduct(product);
+		group.addDiscount(createPercentageDiscount("50 off", 50));
 
-        PercentageDiscount discount = new PercentageDiscount(
-            "Future discount",
-            50,
-            LocalDateTime.of(2026, 10, 23, 13, 0),
-            LocalDateTime.of(2029, 10, 23, 13, 0),
-            clock
-        );
+		assertEquals(new Money(30), resolver.getNewPrice(product, 3, createRegularCustomer()));
+	}
 
-        group.addProduct(product);
-        group.addDiscount(discount);
+	@Test
+	void fixedDiscountShouldBeAppliedBeforePercentageDiscount() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(100));
+		ProductGroup group = new ProductGroup("group");
 
-        Money price = resolver.getNewPrice(product, 1);
+		group.addProduct(product);
+		group.addDiscount(createFixedDiscount("10 off", new Money(10)));
+		group.addDiscount(createPercentageDiscount("50 percent off", 50));
 
-        assertEquals(new Money(100), price);
-    }
-    
-    @Test
-    void invalidMultiBuyDiscountShouldBeIgnored() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(20));
-        ProductGroup group = new ProductGroup("group");
+		assertEquals(new Money(45), resolver.getNewPrice(product, 1, createRegularCustomer()));
+	}
 
-        ZoneId zone = ZoneId.of("Europe/Stockholm");
-        Clock clock = Clock.fixed(
-            Instant.parse("2026-10-23T10:00:00Z"),
-            zone
-        );
+	@Test
+	void memberDiscountShouldCombineWithOtherPercentageDiscount() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(100));
+		ProductGroup group = new ProductGroup("group");
 
-        MultiBuyDiscount discount = new MultiBuyDiscount(
-            "Expired offer",
-            3,
-            2,
-            LocalDateTime.of(2020, 1, 1, 0, 0),
-            LocalDateTime.of(2025, 1, 1, 0, 0),
-            clock
-        );
+		group.addProduct(product);
+		group.addDiscount(createMemberDiscount("Member"));
+		group.addDiscount(createPercentageDiscount("Coupon", 10));
 
-        group.addProduct(product);
-        group.addDiscount(discount);
+		assertEquals(new Money(72), resolver.getNewPrice(product, 1, createMemberCustomer()));
+	}
 
-        Money price = resolver.getNewPrice(product, 3);
+	// 4. Multibuy-rabatter
 
-        assertEquals(new Money(60), price);
-    }
-    
-    @Test
-    void bestMultiBuyDiscountShouldBeSelected() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(20));
-        ProductGroup group = new ProductGroup("group");
+	@Test
+	void multiBuyDiscountShouldChargeForPayableQuantity() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
+		ProductGroup group = new ProductGroup("group");
 
-        group.addProduct(product);
+		group.addProduct(product);
+		group.addDiscount(createMultiBuyDiscount("3 for 2", 3, 2));
 
-        group.addDiscount(
-            createMultiBuyDiscount("3 for 2", 3, 2)
-        );
+		assertEquals(new Money(40), resolver.getNewPrice(product, 3, createRegularCustomer()));
+	}
 
-        group.addDiscount(
-            createMultiBuyDiscount("4 for 2", 4, 2)
-        );
+	@Test
+	void multiBuyDiscountShouldChargeFullPriceForRemainder() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
+		ProductGroup group = new ProductGroup("group");
 
-        Money price = resolver.getNewPrice(product, 4);
+		group.addProduct(product);
+		group.addDiscount(createMultiBuyDiscount("3 for 2", 3, 2));
 
-        assertEquals(new Money(40), price);
-    }
-    
-    @Test
-    void fixedDiscountShouldBeAppliedBeforePercentageDiscount() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(100));
-        ProductGroup group = new ProductGroup("group");
+		assertEquals(new Money(60), resolver.getNewPrice(product, 4, createRegularCustomer()));
+	}
 
-        group.addProduct(product);
-        group.addDiscount(
-            createFixedDiscount("10 off", new Money(10))
-        );
-        group.addDiscount(
-            createPercentageDiscount("50 percent off", 50)
-        );
+	@Test
+	void multiBuyDiscountShouldTakePriorityOverPercentageDiscount() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
+		ProductGroup group = new ProductGroup("group");
 
-        Money price = resolver.getNewPrice(product, 1);
+		group.addProduct(product);
+		group.addDiscount(createMultiBuyDiscount("3 for 2", 3, 2));
+		group.addDiscount(createPercentageDiscount("50 off", 50));
 
-        // 100 - 10 = 90; 50 % rabatt på 90 = 45.
-        assertEquals(new Money(45), price);
-    }
-    
-    @Test
-    void multipleFixedDiscountsShouldBeAppliedInSequence() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(100));
-        ProductGroup group = new ProductGroup("group");
+		assertEquals(new Money(40), resolver.getNewPrice(product, 3, createRegularCustomer()));
+	}
 
-        group.addProduct(product);
-        group.addDiscount(createFixedDiscount("10 off", new Money(10)));
-        group.addDiscount(createFixedDiscount("20 off", new Money(20)));
+	@Test
+	void multiBuyDiscountShouldNotApplyBelowRequiredQuantity() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
+		ProductGroup group = new ProductGroup("group");
 
-        assertEquals(new Money(70), resolver.getNewPrice(product, 1));
-    }
+		group.addProduct(product);
+		group.addDiscount(createMultiBuyDiscount("3 for 2", 3, 2));
 
-    @Test
-    void multiBuyDiscountShouldNotApplyBelowRequiredQuantity() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(20));
-        ProductGroup group = new ProductGroup("group");
+		assertEquals(new Money(40), resolver.getNewPrice(product, 2, createRegularCustomer()));
+	}
 
-        group.addProduct(product);
-        group.addDiscount(createMultiBuyDiscount("3 for 2", 3, 2));
+	@Test
+	void bestMultiBuyDiscountShouldBeSelected() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
+		ProductGroup group = new ProductGroup("group");
 
-        assertEquals(new Money(40), resolver.getNewPrice(product, 2));
-    }
+		group.addProduct(product);
+		group.addDiscount(createMultiBuyDiscount("3 for 2", 3, 2));
+		group.addDiscount(createMultiBuyDiscount("4 for 2", 4, 2));
 
-    @Test
-    void equalMultiBuySavingsShouldKeepFirstDiscount() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(20));
-        ProductGroup group = new ProductGroup("group");
+		assertEquals(new Money(40), resolver.getNewPrice(product, 4, createRegularCustomer()));
+	}
 
-        group.addProduct(product);
+	@Test
+	void equalMultiBuySavingsShouldKeepFirstDiscount() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
+		ProductGroup group = new ProductGroup("group");
 
-        // Båda ger en besparing på en vara per erbjudande.
-        group.addDiscount(createMultiBuyDiscount("3 for 2", 3, 2));
-        group.addDiscount(createMultiBuyDiscount("4 for 3", 4, 3));
+		group.addProduct(product);
+		group.addDiscount(createMultiBuyDiscount("3 for 2", 3, 2));
+		group.addDiscount(createMultiBuyDiscount("4 for 3", 4, 3));
 
-        // För fyra varor väljs det första erbjudandet:
-        // 3 för 2 + 1 till ordinarie pris = 60.
-        assertEquals(new Money(60), resolver.getNewPrice(product, 4));
-    }
+		assertEquals(new Money(60), resolver.getNewPrice(product, 4, createRegularCustomer()));
+	}
 
-    @Test
-    void memberDiscountShouldCombineWithOtherPercentageDiscount() {
-        ProductDiscountResolver resolver = new ProductDiscountResolver();
-        Product product = new Product("Milk", new Money(100));
-        ProductGroup group = new ProductGroup("group");
+	// 5. Medlemsrabatt och student-/seniorrabatt
 
-        group.addProduct(product);
-        group.addDiscount(createMemberDiscount("Member"));
-        group.addDiscount(createPercentageDiscount("Coupon", 10));
+	@Test
+	void memberDiscountShouldApplyToMember() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(100));
+		ProductGroup group = new ProductGroup("group");
 
-        // Medlemsrabatt: 100 -> 80.
-        // Kupong: 80 -> 72.
-        assertEquals(new Money(72), resolver.getNewPrice(product, 1));
-    }
+		group.addProduct(product);
+		group.addDiscount(createMemberDiscount("Member"));
+
+		assertEquals(new Money(80), resolver.getNewPrice(product, 1, createMemberCustomer()));
+	}
+
+	@Test
+	void studentSeniorDiscountShouldApplyToEligibleCustomer() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(100));
+		ProductGroup group = new ProductGroup("group");
+
+		group.addProduct(product);
+		group.addDiscount(createStudentSeniorDiscount("Student"));
+
+		assertEquals(new Money(90), resolver.getNewPrice(product, 1, createStudentCustomer()));
+	}
+
+	@Test
+	void regularCustomerShouldNotReceiveMemberOrStudentDiscount() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(100));
+		ProductGroup group = new ProductGroup("group");
+
+		group.addProduct(product);
+		group.addDiscount(createMemberDiscount("Member"));
+		group.addDiscount(createStudentSeniorDiscount("Student"));
+
+		assertEquals(new Money(100), resolver.getNewPrice(product, 1, createRegularCustomer()));
+	}
+
+	@Test
+	void memberDiscountShouldTakePriorityOverStudentSeniorDiscount() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(100));
+		ProductGroup group = new ProductGroup("group");
+
+		group.addProduct(product);
+		group.addDiscount(createMemberDiscount("Member"));
+		group.addDiscount(createStudentSeniorDiscount("Student"));
+
+		// Kunden är både medlem och student/senior.
+		assertEquals(new Money(80), resolver.getNewPrice(product, 1, createMemberAndStudentCustomer()));
+	}
+
+	private Customer createMemberAndStudentCustomer() {
+		Customer customer = createMemberCustomer();
+		customer.setStudentSenior(true);
+		return customer;
+	}
+
+	@Test
+	void expiredMembershipShouldNotReceiveMemberDiscount() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(100));
+		ProductGroup group = new ProductGroup("group");
+
+		group.addProduct(product);
+		group.addDiscount(createMemberDiscount("Member"));
+
+		Customer customer = createRegularCustomer();
+		customer.setMembership(new Membership(LocalDate.of(2020, 1, 1)));
+
+		assertEquals(new Money(100), resolver.getNewPrice(product, 1, customer));
+	}
+
+	// 6. Ogiltiga rabatter
+
+	@Test
+	void invalidPercentageDiscountShouldBeIgnored() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(100));
+		ProductGroup group = new ProductGroup("group");
+
+		PercentageDiscount discount = new PercentageDiscount("Future discount", 50,
+				LocalDateTime.of(2026, 10, 23, 13, 0), END, CLOCK);
+
+		group.addProduct(product);
+		group.addDiscount(discount);
+
+		assertEquals(new Money(100), resolver.getNewPrice(product, 1, createRegularCustomer()));
+	}
+
+	@Test
+	void invalidMultiBuyDiscountShouldBeIgnored() {
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+		Product product = new Product("Milk", new Money(20));
+		ProductGroup group = new ProductGroup("group");
+
+		MultiBuyDiscount discount = new MultiBuyDiscount("Expired offer", 3, 2, LocalDateTime.of(2020, 1, 1, 0, 0),
+				LocalDateTime.of(2025, 1, 1, 0, 0), CLOCK);
+
+		group.addProduct(product);
+		group.addDiscount(discount);
+
+		assertEquals(new Money(60), resolver.getNewPrice(product, 3, createRegularCustomer()));
+	}
 }
-
-
-
-
-
-

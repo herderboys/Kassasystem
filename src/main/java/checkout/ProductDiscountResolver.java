@@ -9,7 +9,7 @@ public class ProductDiscountResolver {
     // Behåller det gamla beteendet för befintliga anrop och tester.
     public Money getNewPrice(Product product, int quantity) {
         return calculatePrice(product, quantity, null, false);
-    }
+    } 
 
     // Ny metod som tar hänsyn till kundens status.
     public Money getNewPrice(

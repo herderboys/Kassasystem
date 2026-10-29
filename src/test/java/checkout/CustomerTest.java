@@ -11,10 +11,10 @@ public class CustomerTest {
     void studentSeniorStatusCanBeToggled() {
         Customer customer = new Customer("Abbe", new Money(0));
 
-        customer.setStudentSenior();
+        customer.setStudentSenior(true);
         assertTrue(customer.getStudentSenior());
 
-        customer.setStudentSenior();
+        customer.setStudentSenior(false);
         assertFalse(customer.getStudentSenior());
     }
 

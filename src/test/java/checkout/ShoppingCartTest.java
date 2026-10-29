@@ -6,7 +6,44 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 public class ShoppingCartTest {
+	
+	private MemberDiscount createMemberDiscountForTest() {
+	    ZoneId zone = ZoneId.of("Europe/Stockholm");
+	    Clock clock = Clock.fixed(
+	        Instant.parse("2026-10-23T10:00:00Z"),
+	        zone
+	    );
+
+	    return new MemberDiscount(
+	        "Member discount",
+	        LocalDateTime.of(2026, 10, 23, 11, 0),
+	        LocalDateTime.of(2029, 10, 23, 13, 0),
+	        clock
+	    );
+	}
+
+	private StudentSeniorDiscount createStudentDiscountForTest() {
+	    ZoneId zone = ZoneId.of("Europe/Stockholm");
+	    Clock clock = Clock.fixed(
+	        Instant.parse("2026-10-23T10:00:00Z"),
+	        zone
+	    );
+
+	    return new StudentSeniorDiscount(
+	        "Student discount",
+	        LocalDateTime.of(2026, 10, 23, 11, 0),
+	        LocalDateTime.of(2029, 10, 23, 13, 0),
+	        clock
+	    );
+	}
+	
 
     @Test
     void addItemToCartTest(){
@@ -126,16 +163,107 @@ public class ShoppingCartTest {
     }
 
     @Test
-    void studentSeniorDiscountTest(){
-
+    void studentSeniorDiscountTest() {
         Customer customer = new Customer("customer", new Money(10));
-        customer.setStudentSenior();
+        customer.setStudentSenior(true);
+
+        Product product = new Product("testProduct", new Money(10));
+        ProductGroup group = new ProductGroup("group");
+
+        group.addProduct(product);
+
+        Clock clock = Clock.fixed(
+            Instant.parse("2026-10-23T10:00:00Z"),
+            ZoneId.of("Europe/Stockholm")
+        );
+
+        StudentSeniorDiscount discount = new StudentSeniorDiscount(
+            "Student discount",
+            LocalDateTime.of(2026, 10, 23, 11, 0),
+            LocalDateTime.of(2029, 10, 23, 13, 0),
+            clock
+        );
+
+        group.addDiscount(discount);
+
         ShoppingCart shoppingCart = new ShoppingCart(customer);
+        shoppingCart.addItem(product);
 
-        shoppingCart.addItem(new Product("testProduct", new Money(10)));
+        assertEquals(11, shoppingCart.getPrice().getAmountInOre());
+    }
+    
+    @Test
+    void regularCustomerShouldNotGetStudentDiscount() {
+        Customer customer = new Customer("customer", new Money(10));
+        Product product = new Product("testProduct", new Money(10));
+        ProductGroup group = new ProductGroup("group");
 
-        assertEquals(12, shoppingCart.getPrice().getAmountInOre(), "price is " + shoppingCart.getPrice().getAmountInOre() + ", price should be 12");
+        group.addProduct(product);
+        group.addDiscount(createStudentDiscountForTest());
 
+        ShoppingCart cart = new ShoppingCart(customer);
+        cart.addItem(product);
+
+        assertEquals(12, cart.getPrice().getAmountInOre());
+    }
+    
+    @Test
+    void customerWithValidMembershipShouldGetMemberDiscount() {
+        Customer customer = new Customer("customer", new Money(100));
+        customer.setMembership(
+            new Membership(LocalDate.now().plusDays(30))
+        );
+
+        Product product = new Product("testProduct", new Money(100));
+        ProductGroup group = new ProductGroup("group");
+
+        group.addProduct(product);
+        group.addDiscount(createMemberDiscountForTest());
+
+        ShoppingCart cart = new ShoppingCart(customer);
+        cart.addItem(product);
+
+        assertEquals(100, cart.getPrice().getAmountInOre());
+    }
+    
+    @Test
+    void memberWhoIsAlsoStudentShouldOnlyGetMemberDiscount() {
+        Customer customer = new Customer("customer", new Money(100));
+        customer.setMembership(
+            new Membership(LocalDate.now().plusDays(30))
+        );
+        customer.setStudentSenior(true);
+
+        Product product = new Product("testProduct", new Money(100));
+        ProductGroup group = new ProductGroup("group");
+
+        group.addProduct(product);
+        group.addDiscount(createMemberDiscountForTest());
+        group.addDiscount(createStudentDiscountForTest());
+
+        ShoppingCart cart = new ShoppingCart(customer);
+        cart.addItem(product);
+
+        assertEquals(100, cart.getPrice().getAmountInOre());
+    }
+    
+    @Test
+    void customerWithExpiredMembershipShouldNotGetMemberDiscount() {
+        Customer customer = new Customer("customer", new Money(100));
+        customer.setMembership(
+            new Membership(LocalDate.now().minusDays(1))
+        );
+
+        Product product = new Product("testProduct", new Money(100));
+        ProductGroup group = new ProductGroup("group");
+
+        group.addProduct(product);
+        group.addDiscount(createMemberDiscountForTest());
+
+        ShoppingCart cart = new ShoppingCart(customer);
+        cart.addItem(product);
+
+        assertEquals(125, cart.getPrice().getAmountInOre());
     }
 
     @Test
