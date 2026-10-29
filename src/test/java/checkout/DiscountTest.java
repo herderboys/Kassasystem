@@ -406,6 +406,24 @@ class DiscountTest {
 	    assertTrue(discount.isValid());
 	}
 
+	@Test
+	void testFixedDiscountReturnsCorrectAmount(){
+		ZoneId zone = ZoneId.of("Europe/Stockholm");
+
+		LocalDateTime startTime = LocalDateTime.of(2026, 10, 23, 12, 0);
+		LocalDateTime endTime = LocalDateTime.of(2026, 10, 23, 13, 0);
+
+		Clock clock = Clock.fixed(
+				startTime.atZone(zone).toInstant(),
+				zone
+		);
+
+
+		FixedDiscount fixedDiscount = new FixedDiscount("disc", new Money(100), startTime, endTime, clock);
+
+		assertEquals(100, fixedDiscount.getDiscountAmount().getAmountInOre());
+	}
+
 }
 	
 	
