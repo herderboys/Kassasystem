@@ -43,7 +43,7 @@ public class Gtin {
 
     @Override 
     public boolean equals(Object other) {
-        return (other instanceof Gtin g && code.equals(g.getCode()));
+        return other instanceof Gtin g && code.equals(g.getCode());
     }
 
     @Override
