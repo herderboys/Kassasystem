@@ -97,4 +97,10 @@ public class MoneyTest {
         Money money = new Money(200);
         assertFalse(money.equals(null));
     }
+
+    @Test
+    void hashCodeIsEqualToOre(){
+        Money money = new Money(500);
+        assertEquals(500, money.hashCode());
+    }
 }
