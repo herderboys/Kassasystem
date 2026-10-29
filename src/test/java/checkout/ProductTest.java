@@ -34,9 +34,19 @@ public class ProductTest {
         assertThrows(IllegalArgumentException.class, () -> new Product("    ", new Money(500)));
     }
 
+    @Test
+    void productWithVATNameNotOnlyWhitespace() {
+        assertThrows(IllegalArgumentException.class, () -> new Product("    ", new Money(500), new VAT25()));
+    }
+
     @Test 
     void productMoneyNotNull() {
         assertThrows(IllegalArgumentException.class, () -> new Product("Ingenting", null));
+    }
+
+    @Test
+    void productWithVATMoneyNotNull() {
+        assertThrows(IllegalArgumentException.class, () -> new Product("Ingenting", null, new VAT25()));
     }
 
     @Test 
