@@ -3,7 +3,7 @@ package checkout;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ReceiptTest {
+class GeminiReceiptTest {
 
     @Test
     void testEmptyCartReceipt() {

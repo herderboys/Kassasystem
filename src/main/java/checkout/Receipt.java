@@ -6,13 +6,13 @@ import java.util.HashMap;
 
 public class Receipt {
 
-    private final HashMap<Product, Integer> productList;
-    private final HashMap<Product, Integer> priceList;
+    private final HashMap<Product, Integer> productList = new HashMap<>();
+    private final HashMap<Product, Integer> priceList = new HashMap<>();
     private final int totalPrice;
 
     Receipt(ShoppingCart s){
-        productList = s.getCart();
-        priceList = s.getPriceList();
+        productList.putAll(s.getCart());
+        priceList.putAll(s.getPriceList());
         totalPrice = s.getPrice().getAmountInOre();
     }
 
