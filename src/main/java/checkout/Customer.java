@@ -31,8 +31,9 @@ public class Customer {
         return membership;
     }
     
-    public void setStudentSenior() {
-        this.studentOrSenior = !this.studentOrSenior;
+    public void setStudentSenior(boolean set) {
+        
+    	this.studentOrSenior = set;
     }
     
     public boolean getStudentSenior() {

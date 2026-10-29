@@ -9,15 +9,27 @@ public class ShoppingCart {
             new ProductDiscountResolver();
 
     public ShoppingCart(Customer c) {
-        customer = c;
+        if (c == null) {
+            throw new IllegalArgumentException(
+                "Customer cannot be null"
+            );
+        }
+
+        this.customer = c;
     }
 
     public void addItem(Product p) {
+        if (p == null) {
+            throw new IllegalArgumentException(
+                "Product cannot be null"
+            );
+        }
+
         cart.put(p, cart.getOrDefault(p, 0) + 1);
     }
 
     public void removeItem(Product p) {
-        if (!cart.containsKey(p)) {
+        if (p == null || !cart.containsKey(p)) {
             return;
         }
 
@@ -29,33 +41,38 @@ public class ShoppingCart {
     }
 
     public HashMap<Product, Integer> getCart() {
-        return cart;
+        return new HashMap<>(cart);
     }
 
     public HashMap<Product, Integer> getPriceList() {
         HashMap<Product, Integer> priceList = new HashMap<>();
 
-        for (Product p : cart.keySet()) {
-            int quantity = cart.get(p);
+        for (Product product : cart.keySet()) {
+            int quantity = cart.get(product);
 
-            // Skicka produkt och antal till rabattberäknaren.
-            Money price = discountResolver.getNewPrice(p, quantity);
+            // Beräkna priset med hänsyn till kundens status.
+            Money price = discountResolver.getNewPrice(
+                product, quantity, customer
+            );
 
-            // Lägg till moms på det rabatterade nettopriset.
-            Money vat = p.getVAT().calculateVatFromNetPrice(price);
+            // Lägg till moms på det rabatterade priset.
+            Money vat = product.getVAT()
+                .calculateVatFromNetPrice(price);
+
             Money priceWithVat = price.add(vat);
 
-            priceList.put(p, priceWithVat.getAmountInOre());
+            priceList.put(
+                product, priceWithVat.getAmountInOre()
+            );
         }
 
         return priceList;
     }
 
     public Money getPrice() {
-        HashMap<Product, Integer> priceList = getPriceList();
         Money total = new Money(0);
 
-        for (int price : priceList.values()) {
+        for (int price : getPriceList().values()) {
             total = total.add(new Money(price));
         }
 
