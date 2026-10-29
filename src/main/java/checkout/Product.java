@@ -27,6 +27,9 @@ public class Product {
         if (price == null) {
             throw new IllegalArgumentException("Money can't be null.");
         }
+        if (vat == null){
+            throw new IllegalArgumentException("VAT can't be null.");
+        }
 
         this.name = name;
         this.price = price;
