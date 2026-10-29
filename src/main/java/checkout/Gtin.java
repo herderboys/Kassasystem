@@ -43,10 +43,7 @@ public class Gtin {
 
     @Override 
     public boolean equals(Object other) {
-        if (other instanceof Gtin g) {
-            return code.equals(g.getCode());
-        }
-        return false;
+        return (other instanceof Gtin g && code.equals(g.getCode()));
     }
 
     @Override
@@ -68,7 +65,6 @@ public class Gtin {
                 sum += (Character.getNumericValue(code.charAt(i)) * ODD_POSITION_WEIGHT);
             }
         }
-        int expectedCheckDigit = (10 - sum % 10) % 10;
-        return expectedCheckDigit;
+        return (10 - sum % 10) % 10;
     }
 }
