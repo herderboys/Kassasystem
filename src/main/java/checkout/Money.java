@@ -12,10 +12,7 @@ public class Money {
 
     @Override 
     public boolean equals(Object other) {
-        if (other instanceof Money m) {
-            return this.ore == m.ore ;
-        }
-        return false;
+        return other instanceof Money m && this.ore == m.ore;
     }
 
     @Override 
