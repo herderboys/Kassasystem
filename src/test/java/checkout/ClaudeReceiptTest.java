@@ -175,13 +175,13 @@ class ClaudeReceiptTest {
 
         @Test
         @DisplayName("VAT is rounded down to whole öre")
-        void vatIsTruncated() {
-            // 99 * 6 / 100 = 5.94 -> 5 öre VAT
+        void vatIsRounded() {
+            // 99 * 6 / 100 = 5.94 -> 6 öre VAT
             cart.addItem(new Product("Gum", new Money(99), new VAT6()));
 
             assertEquals("""
-                    Gum 1 104
-                    Total price: 104""", new Receipt(cart).getReceipt());
+                    Gum 1 105
+                    Total price: 105""", new Receipt(cart).getReceipt());
         }
 
         @Test

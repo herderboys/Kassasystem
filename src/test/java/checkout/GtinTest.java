@@ -133,4 +133,11 @@ public class GtinTest {
         Gtin gtin = new Gtin("4006381333931");
         assertFalse(gtin.equals(null));
     }
+
+    @Test 
+    void twoGtinWithDifferentCodesAreNotEqual() {
+        Gtin gtin1 = new Gtin("4006381333931");
+        Gtin gtin2 = new Gtin("0012345678905");
+        assertFalse(gtin1.equals(gtin2));
+    }
 }
