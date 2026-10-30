@@ -90,7 +90,7 @@ class ChatGPTReceiptTest {
     void fractionalVatInOreIsRounded() {
         cart.addItem(new Product("Pencil", new Money(99), new VAT25()));
 
-        // VAT.java uses integer division: 99 * 25 / 100 = 24.75 ore, rounded to 25 ore.
+        // Money.percentage() is used: 99 * 25 / 100 = 24.75 ore, rounded to 25 ore.
         assertEquals("Pencil 1 124\nTotal price: 124", new Receipt(cart).getReceipt());
     }
 }
