@@ -174,7 +174,7 @@ class ClaudeReceiptTest {
         }
 
         @Test
-        @DisplayName("VAT is rounded down to whole öre")
+        @DisplayName("VAT is rounded to the nearest ore")
         void vatIsRounded() {
             // 99 * 6 / 100 = 5.94 -> 6 öre VAT
             cart.addItem(new Product("Gum", new Money(99), new VAT6()));
