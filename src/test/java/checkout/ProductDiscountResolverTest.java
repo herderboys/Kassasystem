@@ -10,6 +10,7 @@ import java.time.ZoneId;
 
 import org.junit.jupiter.api.Test;
 
+
 class ProductDiscountResolverTest {
 
 	private static final ZoneId ZONE = ZoneId.of("Europe/Stockholm");
