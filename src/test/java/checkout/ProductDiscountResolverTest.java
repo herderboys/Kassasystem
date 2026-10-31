@@ -10,7 +10,6 @@ import java.time.ZoneId;
 
 import org.junit.jupiter.api.Test;
 
-
 class ProductDiscountResolverTest {
 
 	private static final ZoneId ZONE = ZoneId.of("Europe/Stockholm");
@@ -62,6 +61,36 @@ class ProductDiscountResolverTest {
 		customer.setStudentSenior(true);
 
 		return customer;
+	}
+
+	@Test
+	void testStudentDiscountCombinedWithPercentageDiscount() {
+		ZoneId zone = ZoneId.of("Europe/Stockholm");
+
+		LocalDateTime startTime = LocalDateTime.of(2026, 10, 23, 11, 0);
+		LocalDateTime endTime = LocalDateTime.of(2029, 10, 23, 13, 0);
+
+		Clock clock = Clock.fixed(Instant.parse("2026-10-23T10:00:00Z"), zone);
+
+		ProductGroup group = new ProductGroup("Test group");
+
+		StudentSeniorDiscount studentDiscount = new StudentSeniorDiscount("Student discount", startTime, endTime,
+				clock);
+
+		PercentageDiscount percentageDiscount = new PercentageDiscount("Regular discount", 20, startTime, endTime,
+				clock);
+
+		group.addDiscount(studentDiscount);
+		group.addDiscount(percentageDiscount);
+
+		Product product = new Product("Test product", new Money(10000));
+		product.setProductGroup(group);
+
+		ProductDiscountResolver resolver = new ProductDiscountResolver();
+
+		Money result = resolver.getNewPrice(product, 1);
+
+		assertEquals(7200, result.getAmountInOre());
 	}
 
 	@Test
