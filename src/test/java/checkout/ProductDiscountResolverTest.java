@@ -64,7 +64,7 @@ class ProductDiscountResolverTest {
 	}
 
 	@Test
-	void testStudentDiscountCombinedWithPercentageDiscount() {
+	void testStudentDiscountCombinedWithFixedDiscount() {
 		ZoneId zone = ZoneId.of("Europe/Stockholm");
 
 		LocalDateTime startTime = LocalDateTime.of(2026, 10, 23, 11, 0);
@@ -77,20 +77,20 @@ class ProductDiscountResolverTest {
 		StudentSeniorDiscount studentDiscount = new StudentSeniorDiscount("Student discount", startTime, endTime,
 				clock);
 
-		PercentageDiscount percentageDiscount = new PercentageDiscount("Regular discount", 20, startTime, endTime,
-				clock);
+		FixedDiscount fixedDiscount = new FixedDiscount("Fixed discount", new Money(10), startTime, endTime, clock);
 
 		group.addDiscount(studentDiscount);
-		group.addDiscount(percentageDiscount);
+		group.addDiscount(fixedDiscount);
 
-		Product product = new Product("Test product", new Money(10000));
+		Product product = new Product("Test product", new Money(100));
 		product.setProductGroup(group);
 
 		ProductDiscountResolver resolver = new ProductDiscountResolver();
 
 		Money result = resolver.getNewPrice(product, 1);
 
-		assertEquals(7200, result.getAmountInOre());
+		assertEquals(81, result.getAmountInOre());
+
 	}
 
 	@Test
