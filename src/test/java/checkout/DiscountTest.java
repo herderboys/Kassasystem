@@ -438,7 +438,7 @@ class DiscountTest {
 		LocalDateTime endTime = LocalDateTime.of(2026, 10, 23, 13, 0);
 
 		Clock clock = Clock.fixed(
-				startTime.atZone(zone).toInstant(),
+				startTime.atZone(zonetestMemberDiscountHas20PercentDiscount).toInstant(),
 				zone
 		);
 
