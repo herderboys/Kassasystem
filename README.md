@@ -1,6 +1,6 @@
 # Kassasystem
 
-> **School project.** This is a group project (group 3) in the course *Introduktion till testning av IT-system* (INTE) at the Department of Computer and Systems Sciences (DSV), Stockholm University, autumn 2026. The code was written to practise testing and is not meant for real-world use.
+> **School project.** This is a group project (group 3) in the course *Introduktion till testning av IT-system* (INTE) at the Department of Computer and Systems Sciences (DSV), Stockholm University, HT2026. The code was written to practise testing and is not meant for real-world use.
 
 ## About
 
